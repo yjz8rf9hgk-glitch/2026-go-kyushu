@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>2026 Kyushu</title>
+<link rel="apple-touch-icon" href="https://www.pinterest.com/pin/758012181084458177/">
 <style>
   :root{
     --bg:#ffffff;
@@ -363,22 +364,18 @@ let messages = [];
 
 /* ================= STORAGE HELPERS ================= */
 async function loadChecked(){
-  try{
-    const r = await window.storage.get("kyushu-checked", true);
-    checkedMap = r && r.value ? JSON.parse(r.value) : {};
-  }catch(e){ checkedMap = {}; }
+ const data = localStorage.getItem("kyushu-checked");
+  checkedMap = data ? JSON.parse(data) : {};
 }
 async function saveChecked(){
-  try{ await window.storage.set("kyushu-checked", JSON.stringify(checkedMap), true); }catch(e){}
+ localStorage.setItem("kyushu-checked", JSON.stringify(checkedMap));
 }
 async function loadMessages(){
-  try{
-    const r = await window.storage.get("kyushu-messages", true);
-    messages = r && r.value ? JSON.parse(r.value) : [];
-  }catch(e){ messages = []; }
+  const data = localStorage.getItem("kyushu-messages");
+  messages = data ? JSON.parse(data) : [];
 }
 async function saveMessages(){
-  try{ await window.storage.set("kyushu-messages", JSON.stringify(messages), true); }catch(e){}
+  localStorage.setItem("kyushu-messages", JSON.stringify(messages));
 }
 
 /* ================= NOTIFICATION BANNER ================= */
@@ -479,10 +476,10 @@ function renderDayPanel(){
     });
   });
 }
-async function toggleItem(id){
+function toggleItem(id){
   checkedMap[id] = !checkedMap[id];
   renderDayPanel();
-  await saveChecked();
+  saveChecked();
 }
 
 /* ================= MESSAGE BOARD ================= */
@@ -497,7 +494,7 @@ function renderMessages(){
     return;
   }
   list.innerHTML = messages.map(m => {
-    const name = m.role === "girlfriend" ? "💕 可愛女友" : "😎 帥氣男友";
+    const name = m.role === "girlfriend" ? "🍑 可愛女友" : "🍆 帥氣男友";
     return (
       '<div class="bubble-row '+m.role+'">'+
         '<div class="bubble-name">'+name+'</div>'+
@@ -509,7 +506,15 @@ function renderMessages(){
   list.scrollTop = list.scrollHeight;
 }
 function escapeHtml(s){
-  return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  return s.replace(/[&<>"']/g, function(m) {
+    return {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[m];
+  });
 }
 function setupMsgUI(){
   document.querySelectorAll(".persona-btn").forEach(btn => {
@@ -534,12 +539,12 @@ function setupMsgUI(){
 }
 
 /* ================= INIT ================= */
-async function init(){
+function init(){
   renderNotif();
-  await loadChecked();
+  loadChecked();
   renderDaySwitcher();
   renderDayPanel();
-  await loadMessages();
+  loadMessages();
   renderMessages();
   setupMsgUI();
 }
