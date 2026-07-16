@@ -24,7 +24,7 @@
     --blue-tint:rgba(0,122,255,0.1);
     --pink:#ff2d55;
     --pink-tint:rgba(255,45,85,0.12);
-    --sukura:rgba(245, 40, 145, 0.2);
+    --sakura:rgba(245, 40, 145, 0.2);
     --boy:#0a84ff;
     --boy-tint:rgba(10,132,255,0.12);
     --green:#34c759;
@@ -132,7 +132,7 @@
   .item:last-child{border-bottom:none;}
   .item:active{background:var(--bg2);}
   .item.info{background:var(--orange-tint);}
-  .item.plane{background:var(--sukura);}
+  .item.info-2{background:var(--sakura);}
   .checkbox{
     flex:0 0 auto; width:22px; height:22px; border-radius:50%;
     border:1.6px solid var(--text3); margin-top:2px;
@@ -142,7 +142,7 @@
   .checkbox.checked{background:var(--blue); border-color:var(--blue);}
   .checkbox.checked::after{content:"✓"; color:#fff; font-size:12.5px; font-weight:800;}
   .item.info .checkbox{visibility:hidden;}
-  .item.plane .checkbox{visibility:hidden;}
+  .item.info-2 .checkbox{visibility:hidden;}
   .item-body{flex:1; min-width:0; cursor:pointer;}
   .item-top{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;}
   .item-time{font-size:13px; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
@@ -196,7 +196,7 @@ const DAYS = [
   {
     id:"d1", date:"09/05", weekday:"六", title:"第一日", theme:"抵達福岡・天神散策",
     items:[
-      {id:"d1-00", icon:"📋", title:"機場報到", lines:["04:00 🚕必須從內湖出門","05:00 🇹🇼抵達桃園機場第一航廈","06:45 ✈️出發～♡","10:05 🇯🇵抵達福岡機場"], plane:true},
+      {id:"d1-00", icon:"📋", title:"機場報到", lines:["04:00 🚕必須從內湖出門","05:00 🇹🇼抵達桃園機場第一航廈","06:45 ✈️出發～♡","10:05 🇯🇵抵達福岡機場"], info-2:true},
       {id:"d1-01", icon:"🚇", title:"搭乘地鐵前進市區（約30min）", lines:["🆓 先搭接駁巴士到國內線航廈轉乘地鐵","福岡空港駅","｜地下鐵空港線（11min，¥260）","天神駅，往西6號出口出站步行3min"]},
       {id:"d1-02", icon:"🏨", title:"飯店check in：Richmond Hotel 里士滿酒店天神西通", lines:["リッチモンドホテル天神西通"], map:"里士滿酒店天神西通"},
       {id:"d1-03", time:"12:00", icon:"🚶", title:"步行約10min去吃午餐：博多名物海鮮定食🐟", chips:[{t:"hours",text:"11:00～14:30"},{t:"reservation",text:"預計預約12:15"},{t:"payment",text:"可刷卡"}], map:"博多爐端 魚男 Fukuoka"},
@@ -217,7 +217,7 @@ const DAYS = [
     ]
   },
   {
-    id:"d2", date:"09/06", weekday:"日", title:"第二日", theme:"門司港+小倉一日遊",
+    id:"d2", date:"09/06", weekday:"日", title:"第二日", theme:"門司港・小倉一日遊",
     items:[
       {id:"d2-01", time:"07:45", icon:"🥐", title:"出發買早餐（超商/麥當勞）"},
       {id:"d2-02", icon:"🚏", title:"步行10min往西鉄天神高速巴士站", lines:["🎐 車站位於三越百貨的3樓","🧭 需提前15～20min到現場排隊","🎫 上車直接刷SUICA（¥1,700）"], map:"西鉄天神高速バスターミナル"},
@@ -265,7 +265,7 @@ const DAYS = [
     ]
   },
   {
-    id:"d4", date:"09/08", weekday:"二", title:"第四日", theme:"熊本＋高千穗一日遊",
+    id:"d4", date:"09/08", weekday:"二", title:"第四日", theme:"熊本・高千穗一日遊",
     items:[
       {id:"d4-00", icon:"📋", title:"行前提醒", lines:["💬 今天是參加旅行社一日行程","💴 團費1人$2,080 (含午餐)","🌳 會較貼近大自然，記得穿輕便一點"], info:true},
       {id:"d4-01", time:"07:00", icon:"🥐", title:"出門買早餐（超商/麥當勞）", chips:[{t:"warning",text:"不要在集合處超商買，到時候人一定超多！"}]},
@@ -284,7 +284,7 @@ const DAYS = [
     ]
   },
   {
-    id:"d5", date:"09/09", weekday:"三", title:"第五日", theme:"大濠公園・運河城・賦歸",
+    id:"d5", date:"09/09", weekday:"三", title:"第五日", theme:"大濠公園・博多運河城・賦歸",
     items:[
       {id:"d5-01", time:"08:15", icon:"🚶", title:"出門！到六本松站吃早餐", lines:["🧳 記得先到退房＋寄放行李","⌛ 可搭地鐵或公車", "天神南駅","｜地鐵七隈線（10min，¥260）","六本松駅，從2號出站出站步行6min"]},
       {id:"d5-02", icon:"🐟", title:"早餐：鮭魚日式早餐定食", chips:[{t:"hours",text:"07:00～22:00"},{t:"reservation",text:"可預約（8/10 23:00預約9:00）"},{t:"payment",text:"可刷卡"}], map:"Robata no Ito Okashi Fukuoka"},
@@ -295,7 +295,7 @@ const DAYS = [
       {id:"d5-08", icon:"🛍️", title:"步行到博多運河城Shopping！", chips:[{t:"hours",text:"～21:00"}], lines:["🧃Center Walk","B1F 橡子共和國","B1F JUMP SHOP","B1F 迪士尼商店","B1F THANK YOU MART","🧃South Bldg.","B1F~1F BANDAI Cross Store","1F~3F Alpen FUKUOKA","🧃North Bldg.","1F~2F 松本清","3F~4F 無印良品"], map:"博多運河城 Fukuoka"},
       {id:"d5-09", time:"15:30", icon:"🧳", title:"回飯店領行李", lines:["櫛田神社前駅","｜地鐵七隈線（1min，¥210）","天神南駅，往2號出口出站步行11min"]},
       {id:"d5-10", time:"16:00", icon:"🚇", title:"搭地鐵前往福岡機場", lines:["天神駅","｜地下鐵空港線（11min，¥260）","福岡空港駅，再搭接駁巴士到國際線航廈"]},
-      {id:"d5-11", icon:"📋", title:"機場報到", lines:["16:45 🇯🇵抵達福岡機場 ⚠️ 出境後再採買伴手禮","18:55 ✈️出發～♡","20:25 🇹🇼抵達桃園機場第一航廈"], plane:true},
+      {id:"d5-11", icon:"📋", title:"機場報到", lines:["16:45 🇯🇵抵達福岡機場 ⚠️ 出境後再採買伴手禮","18:55 ✈️出發～♡","20:25 🇹🇼抵達桃園機場第一航廈"], info-2:true},
     ]
   }
 ];
