@@ -308,13 +308,6 @@ async function loadChecked(){
 async function saveChecked(){
  localStorage.setItem("kyushu-checked", JSON.stringify(checkedMap));
 }
-async function loadMessages(){
-  const data = localStorage.getItem("kyushu-messages");
-  messages = data ? JSON.parse(data) : [];
-}
-async function saveMessages(){
-  localStorage.setItem("kyushu-messages", JSON.stringify(messages));
-}
 
 /* ================= NOTIFICATION BANNER ================= */
 function renderNotif(){
