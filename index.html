@@ -374,7 +374,7 @@ function itemHtml(it){
   const chips = (it.chips||[]).map(chipHtml).join("");
   const map = it.map ? '<a class="map-btn" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(it.map)+'" target="_blank" rel="noopener">📍 開啟 Google 地圖</a>' : "";
   const cbStyle = isInfo1OrInfo2 ? 'style="visibility: hidden;"' : '';
-  const cbClass = "checkbox" + (done ? " checked" : "");
+  const cbClass = "checkbox" + (done? " checked" : "");
   return (
     '<div class="item'+(it.info1?" info-1":"")+(isInfo2?" info-2":"")+(done?" done":"")+'" data-id="'+it.id+'">'+
       '<div class="'+cbClass+'" data-cb="'+it.id+'" '+cbStyle+'></div>'+
@@ -393,7 +393,7 @@ function itemHtml(it){
 function renderDayPanel(){
   const day = DAYS[currentDay];
   const panel = document.getElementById("dayPanel");
-  const checkable = day.items.filter(it => !it.info && !it["info-2"]);
+  const checkable = day.items.filter(it => !it["info-1"] && !it["info-2"]);
   const doneCount = checkable.filter(it => checkedMap[it.id]).length;
   const pct = checkable.length ? Math.round((doneCount/checkable.length)*100) : 0;
 
