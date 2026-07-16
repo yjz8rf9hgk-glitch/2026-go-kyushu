@@ -170,6 +170,12 @@
     padding:6px 11px; border-radius:100px; text-decoration:none; -webkit-user-select:none; user-select:none;
   }
   .map-btn:active{transform:scale(0.94);}
+  .coupon-btn {
+    margin-top:8px; margin-left:6px; display: inline-flex; align-items: center; gap:4px;
+    font-size: 12.5px; font-weight: 700; color:#ff2d55; background:rgba(255,45,85,0.1);
+    padding: 6px 11px; border-radius:100px; text-decoration:none; -webkit-user-select:none; user-select:none;
+  }
+  .coupon-btn:active{transform: scale(0.94); }
 </style>
 </head>
 <body>
@@ -197,7 +203,7 @@ const DAYS = [
   {
     id:"d1", date:"09/05", weekday:"六", title:"第一日", theme:"抵達福岡・天神散策",
     items:[
-      {id:"d1-00", icon:"📋", title:"機場報到", lines:["04:00 🚕必須從內湖出門","05:00 🇹🇼抵達桃園機場第一航廈","06:45 ✈️出發～♡","航班資訊：虎航IT240，托運行李限制20KG","10:05 🇯🇵抵達福岡機場"], "info-2":true},
+      {id:"d1-00", icon:"📋", title:"機場報到", lines:["04:00 🚕必須出發前往機場","05:00 🇹🇼抵達桃園機場第一航廈","06:45 ✈️出發～♡","航班資訊：虎航IT240，托運行李限制20KG","10:05 🇯🇵抵達福岡機場"], "info-2":true},
       {id:"d1-01", icon:"🚇", title:"搭乘地鐵前進市區（約30min）", lines:["🆓 先搭接駁巴士到國內線航廈轉乘地鐵","福岡空港駅","｜地下鐵空港線（11min，¥260）","天神駅，往西6號出口出站步行3min"]},
       {id:"d1-02", icon:"🏨", title:"飯店check in：Richmond Hotel 里士滿酒店天神西通", lines:["リッチモンドホテル天神西通"], map:"里士滿酒店天神西通"},
       {id:"d1-03", time:"12:00", icon:"🚶", title:"步行約10min去吃午餐：博多名物海鮮定食🐟", chips:[{t:"hours",text:"11:00～14:30"},{t:"reservation",text:"預計預約12:15"},{t:"payment",text:"可刷卡"}], map:"博多爐端 魚男 Fukuoka"},
@@ -282,7 +288,7 @@ const DAYS = [
       {id:"d4-11", icon:"🚇", title:"搭地鐵回天神吃晚餐：拉麵", lines:["博多駅","｜地下鐵空港線（6min，¥210）","天神駅，往西5號出口出站步行7min"], chips:[{t:"hours",text:"17:00～00:00"},{t:"note",text:"無預約制（應該不用排隊）"},{t:"payment",text:"可刷卡"},{t:"tip",text:"推薦柑橘貝類拉麵/蝦湯拉麵"}], map:"麵屋 最後の一滴 Fukuoka"},
       {id:"d4-12", icon:"🛍️", title:"吃飽到天神地下街晃晃", chips:[{t:"hours",text:"～21:00"}], lines:["012. 芋屋金次郎","229. RINGO 蘋果派","233. 靴下屋","320. 百元商店 salut!"], map:"天神地下街 Fukuoka"},
       {id:"d4-13", icon:"🛍️", title:"Incube", lines:["有蒙奇奇周邊商品！"], chips:[{t:"hours",text:"～20:30"}], map:"Incube 雑貨館インキューブ 天神店"},
-      {id:"d4-14", icon:"🏪", title:"唐吉軻德 福岡天神本店", chips:[{t:"hours",text:"24小時"}], map:"唐吉訶德 福岡天神本店"}
+      {id:"d4-14", icon:"🏪", title:"唐吉軻德 福岡天神本店", chips:[{t:"hours",text:"24小時"}], map:"唐吉訶德 福岡天神本店", coupon: "https://japanportal.donki-global.com/coupon/cp001_zhtw.html"}
     ]
   },
   {
@@ -373,6 +379,7 @@ function itemHtml(it){
   const lines = (it.lines||[]).map(l => '<div>'+l+'</div>').join("");
   const chips = (it.chips||[]).map(chipHtml).join("");
   const map = it.map ? '<a class="map-btn" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(it.map)+'" target="_blank" rel="noopener">📍 開啟 Google 地圖</a>' : "";
+  const coupon = it.coupon ? '<a class="coupon-btn" href="'+it.coupon+'" target="_blank" rel="noopener">🎫 優惠券這邊領!</a>' : "";
   const cbStyle = isInfo1OrInfo2 ? 'style="visibility: hidden;"' : '';
   const cbClass = "checkbox" + (done? " checked" : "");
   return (
@@ -417,7 +424,7 @@ function renderDayPanel(){
   });
   panel.querySelectorAll("[data-body]").forEach(b => {
     b.addEventListener("click", (e) => {
-      if(e.target.closest(".map-btn")) return;
+      if(e.target.closest(".map-btn") || e.target.closest(".coupon-btn")) return;
       toggleItem(e.currentTarget.getAttribute("data-body"));
     });
   });
