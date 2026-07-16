@@ -132,7 +132,6 @@
   }
   .item:last-child{border-bottom:none;}
   .item:active{background:var(--bg2);}
-  const isInfoOrInfo2= it.info|| isInfo2;
   .item.info-1{background:var(--yellow-tint);}
   .item.info-2{background:var(--sakura);}
   .checkbox{
@@ -366,17 +365,17 @@ function chipHtml(c){
   return '<span class="chip '+c.t+'">'+icon+' '+c.text+'</span>';
 }
 function itemHtml(it){
-  const isInfo1 = it['info-1'] || it.info1;
-  const isInfo2 = it['info-2'] || it.info2;
-  const isInfo1OrInfo2 = !!it.info1 || isInfo2;
-  const done = !it.info1 && !isInfo2 && !!checkedMap[it.id];
+  const isInfo1 = !!(it['info-1'] || it.info1);
+  const isInfo2 = !!(it['info-2'] || it.info2);
+  const isInfo1OrInfo2 = isInfo1 || isInfo2;
+  const done = !isInfo1OrInfo2 && !!checkedMap[it.id];
   const lines = (it.lines||[]).map(l => '<div>'+l+'</div>').join("");
   const chips = (it.chips||[]).map(chipHtml).join("");
   const map = it.map ? '<a class="map-btn" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(it.map)+'" target="_blank" rel="noopener">📍 開啟 Google 地圖</a>' : "";
   const cbStyle = isInfo1OrInfo2 ? 'style="visibility: hidden;"' : '';
   const cbClass = "checkbox" + (done? " checked" : "");
   return (
-    '<div class="item'+(it.info1?" info-1":"")+(isInfo2?" info-2":"")+(done?" done":"")+'" data-id="'+it.id+'">'+
+'<div class="item'+(isInfo1?" info-1":"")+(isInfo2?" info-2":"")+(done?" done":"")+'" data-id="'+it.id+'">'+
       '<div class="'+cbClass+'" data-cb="'+it.id+'" '+cbStyle+'></div>'+
       '<div class="item-body" data-body="'+it.id+'">'+
         '<div class="item-top">'+
@@ -390,6 +389,7 @@ function itemHtml(it){
     '</div>'
   );
 }
+  
 function renderDayPanel(){
   const day = DAYS[currentDay];
   const panel = document.getElementById("dayPanel");
