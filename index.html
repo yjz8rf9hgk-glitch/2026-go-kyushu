@@ -24,7 +24,7 @@
     --blue-tint:rgba(0,122,255,0.1);
     --pink:#ff2d55;
     --pink-tint:rgba(255,45,85,0.12);
-    --sakura:rgba(245, 40, 145, 0.2);
+    --sakura:rgba(245,40,145,0.2);
     --boy:#0a84ff;
     --boy-tint:rgba(10,132,255,0.12);
     --green:#34c759;
@@ -132,7 +132,7 @@
   .item:last-child{border-bottom:none;}
   .item:active{background:var(--bg2);}
   const isInfoOrInfo2= it.info|| isInfo2;
-  .item.info{background:var(--orange-tint);}
+  .item.info {background:var(--orange-tint);}
   .item.info-2{background:var(--sakura);}
   .checkbox{
     flex:0 0 auto; width:22px; height:22px; border-radius:50%;
@@ -201,18 +201,18 @@ const DAYS = [
       {id:"d1-01", icon:"🚇", title:"搭乘地鐵前進市區（約30min）", lines:["🆓 先搭接駁巴士到國內線航廈轉乘地鐵","福岡空港駅","｜地下鐵空港線（11min，¥260）","天神駅，往西6號出口出站步行3min"]},
       {id:"d1-02", icon:"🏨", title:"飯店check in：Richmond Hotel 里士滿酒店天神西通", lines:["リッチモンドホテル天神西通"], map:"里士滿酒店天神西通"},
       {id:"d1-03", time:"12:00", icon:"🚶", title:"步行約10min去吃午餐：博多名物海鮮定食🐟", chips:[{t:"hours",text:"11:00～14:30"},{t:"reservation",text:"預計預約12:15"},{t:"payment",text:"可刷卡"}], map:"博多爐端 魚男 Fukuoka"},
-      {id:"d1-04", icon:"🔍", title:"天神/薬院周遭選品小物店晃晃", info:true},
+      {id:"d1-04", icon:"🔍", title:"天神/薬院周遭選品小物店晃晃", "info":true},
       {id:"d1-05", icon:"🏠", title:"SOMEWARE — 居家小物", map:"SOMEWARE Fukuoka"},
       {id:"d1-06", icon:"🍽️", title:"B・B・B POTTERY — 生活雜貨・餐具", map:"B.B.B potters Fukuoka"},
       {id:"d1-07", icon:"🐱", title:"山響屋 — 可愛招財貓", chips:[{t:"hours",text:"11:00～18:00"}], map:"山響屋 福岡"},
       {id:"d1-08", icon:"📿", title:"COIN LUCK 福岡店 — 做手鍊", chips:[{t:"hours",text:"10:00～19:00"}], map:"COIN LUCK 福岡店"},
-      {id:"d1-09", icon:"🛍️", title:"一路逛回天神 Shopping！百貨公司行程", info:true},
+      {id:"d1-09", icon:"🛍️", title:"一路逛回天神 Shopping！百貨公司行程", "info":true},
       {id:"d1-10", icon:"🏬", title:"IWATAYA", chips:[{t:"hours",text:"10:00～20:00"}], lines:["1F SHIRO","3F MM6"], map:"Iwataya Main Store Fukuoka"},
       {id:"d1-11", icon:"🏬", title:"PARCO", chips:[{t:"hours",text:"10:00～20:30"}], lines:["🧃新館","1F Beans","3F FREAK'S STORE","🧃本館","1F Vivienne Westwood","2F SNIDEL","3F URBAN RESEARCH","7F Crayon Shin-chan","8F Kiddy Land","8F アニメイト","7F&8F 有一堆扭蛋"], map:"福岡PARCO本館"},
       {id:"d1-12", icon:"🏬", title:"ONE FUKUOKA BLDG", chips:[{t:"hours",text:"11:00～20:00"}], lines:["2F Nike","2F MoMA Design Store","4F KEEN"], map:"ONE FUKUOKA BLDG Fukuoka"},
       {id:"d1-13", icon:"🥐", title:"下午茶時間！明太子麵包", chips:[{t:"hours",text:"10:00～20:00"},{t:"reservation",text:"當天預約16:45取餐"}], map:"フルフル パンとワイン"},
       {id:"d1-14", icon:"🏬", title:"Mina 天神", chips:[{t:"hours",text:"10:00～20:00"}], lines:["B1F 3COINS＋plus","1F Uniqlo","1F JINS（態度很差要有心理準備）","4F LOFT"], map:"Mina天神 Fukuoka"},
-      {id:"d1-15", icon:"🚶", title:"步行4min回飯店放東西", info:true},
+      {id:"d1-15", icon:"🚶", title:"步行4min回飯店放東西", "info":true},
       {id:"d1-16", time:"19:00", icon:"🚶", title:"步行10min去吃晚餐：烏龍沾麵", chips:[{t:"hours",text:"10:00～22:00"},{t:"warning",text:"無預約制（排隊時間20min+）"},{t:"payment",text:"可刷卡"}], map:"麵屋兼虎 天神本店"},
       {id:"d1-17", icon:"🍎", title:"吃飽飽到超市買水果", chips:[{t:"hours",text:"～23:00"}], map:"西鐵超市Reganet天神店"}
     ]
@@ -226,11 +226,11 @@ const DAYS = [
       {id:"d2-04", time:"10:15", icon:"⚓", title:"抵達下關市"},
       {id:"d2-05", icon:"🐟", title:"唐戶市場 — 魚市場・握壽司", lines:["可嘗試當地盛產的河豚生魚片"], chips:[{t:"warning",text:"高機率會踩雷，選擇有排隊的店家"},{t:"note",text:"最好自備現金"}], map:"唐戶市場 Karato Ichiba Shimonoseki"},
       {id:"d2-06", icon:"🕊️", title:"日清和談紀念館 — 馬關條約簽訂地點", map:"日清講和記念館 Shimonoseki"},
-      {id:"d2-07", icon:"🚌", title:"搭公車前往海底隧道入口"},
+      {id:"d2-07", icon:"🚌", title:"搭公車前往海底隧道入口", "info":true},
       {id:"d2-08", icon:"🚶", title:"關門海峽海底隧道步行回九州", lines:["在兩處入口有紀念章可以玩（?）"], map:"Kanmon Pedestrian Tunnel"},
-      {id:"d2-09", icon:"🚌", title:"搭公車到門司港車站周遭"},
+      {id:"d2-09", icon:"🚌", title:"搭公車到門司港車站周遭", "info":true},
       {id:"d2-10", icon:"🍛", title:"午餐：燒咖喱", chips:[{t:"hours",text:"11:00～20:00"},{t:"warning",text:"無預約制（排隊10-20min）"},{t:"payment",text:"可刷卡"}], map:"伽哩本舖門司港RETORO"},
-      {id:"d2-11", icon:"🚶", title:"吃飽走走晃晃", info:true},
+      {id:"d2-11", icon:"🚶", title:"吃飽走走晃晃", "info":true},
       {id:"d2-12", icon:"🌉", title:"藍翼橋", map:"藍翼橋 Kitakyushu"},
       {id:"d2-13", icon:"💌", title:"北九州市舊門司稅關", map:"北九州市舊門司税関 Kitakyushu"},
       {id:"d2-14", icon:"🏛️", title:"門司港懷舊觀光物產館", lines:["可以寄張明信片回台灣"], map:"門司港懷舊觀光物產館 港House"},
@@ -238,7 +238,7 @@ const DAYS = [
       {id:"d2-16", icon:"🏯", title:"小倉城天守閣", chips:[{t:"hours",text:"～20:00"}], map:"小倉城 Kitakyushu"},
       {id:"d2-17", icon:"🍚", title:"晚餐：百年老店鰻魚飯", chips:[{t:"hours",text:"11:00～20:00"},{t:"reservation",text:"預計預訂18:00"},{t:"payment",text:"可刷卡"}], map:"鰻魚 田舎庵 Kitakyushu"},
       {id:"d2-18", icon:"🚄", title:"吃飽搭乘新幹線回到博多車站", lines:["🎫 找綠色窗口或機器兌換實體車票","小倉站","｜山陽新幹線（17min，自由席$299）","博多站"]},
-      {id:"d2-19", icon:"🍴", title:"在博多車站買甜點", info:true},
+      {id:"d2-19", icon:"🍴", title:"在博多車站買甜點", "info":true},
       {id:"d2-20", icon:"🍡", title:"冰淇淋麻糬 — Imonne Hakata", chips:[{t:"hours",text:"～21:00"}], map:"Imonne Hakata Fukuoka"},
       {id:"d2-21", icon:"🥮", title:"可麗露 — LeClerc", chips:[{t:"hours",text:"～21:00"}], map:"LeClerc Hakata Fukuoka"},
       {id:"d2-22", icon:"🍮", title:"布丁 — Jiichiro JR Hakata City", chips:[{t:"hours",text:"～21:00"}], map:"Jiichiro JR Hakata City"},
@@ -268,7 +268,7 @@ const DAYS = [
   {
     id:"d4", date:"09/08", weekday:"二", title:"第四日", theme:"熊本・高千穗一日遊",
     items:[
-      {id:"d4-00", icon:"📋", title:"行前提醒", lines:["💬 今天是參加旅行社一日行程","💴 團費1人$2,080 (含午餐)","🌳 會較貼近大自然，記得穿輕便一點"], info:true},
+      {id:"d4-00", icon:"📋", title:"行前提醒", lines:["💬 今天是參加旅行社一日行程","💴 團費1人$2,080 (含午餐)","🌳 會較貼近大自然，記得穿輕便一點"], "info-2":true},
       {id:"d4-01", time:"07:00", icon:"🥐", title:"出門買早餐（超商/麥當勞）", chips:[{t:"warning",text:"不要在集合處超商買，到時候人一定超多！"}]},
       {id:"d4-02", icon:"🚇", title:"前往博多駅", lines:["天神駅，選擇第1節車廂","｜地下鐵空港線（6min，¥210）","博多駅，往東4號出口出站步行4min"]},
       {id:"d4-03", time:"07:45", icon:"🏪", title:"LAWSON前集合", map:"LAWSON 福岡東方飯店 fukuoka"},
@@ -289,7 +289,7 @@ const DAYS = [
     items:[
       {id:"d5-01", time:"08:15", icon:"🚶", title:"出門！到六本松站吃早餐", lines:["🧳 記得先到退房＋寄放行李","⌛ 可搭地鐵或公車", "天神南駅","｜地鐵七隈線（10min，¥260）","六本松駅，從2號出站出站步行6min"]},
       {id:"d5-02", icon:"🐟", title:"早餐：鮭魚日式早餐定食", chips:[{t:"hours",text:"07:00～22:00"},{t:"reservation",text:"可預約（8/10 23:00預約9:00）"},{t:"payment",text:"可刷卡"}], map:"Robata no Ito Okashi Fukuoka"},
-      {id:"d5-03",icon:"🌳", title:"吃飽到大濠公園晃晃散步", map:"大濠公園 Fukuoka",info:true},
+      {id:"d5-03",icon:"🌳", title:"吃飽到大濠公園晃晃散步", map:"大濠公園 Fukuoka","info":true},
       {id:"d5-04", icon:"🍵", title:"喝抹茶／玉子燒三明治", map:"&LOCALS 大濠公園 Fukuoka"},
       {id:"d5-05", time:"12:00", icon:"🚇", title:"搭乘地鐵前往渡邊通", lines:["六本松駅","｜地鐵七隈線（7min，¥210）","渡辺通駅，往2號出口出站步行4min"]},
       {id:"d5-07", icon:"🍙", title:"神好吃豆皮壽司", chips:[{t:"note",text:"先預約好當日12:00外帶取餐"},{t:"warning",text:"不可刷卡，僅收現金"},{t:"note",text:"一盒四入¥1,490"}], map:"だしいなり 海木 Fukuoka"},
