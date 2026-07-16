@@ -131,6 +131,7 @@
   }
   .item:last-child{border-bottom:none;}
   .item:active{background:var(--bg2);}
+  const isInfoOrInfo2= it.info|| isInfo2;
   .item.info{background:var(--orange-tint);}
   .item.info-2{background:var(--sakura);}
   .checkbox{
@@ -196,7 +197,7 @@ const DAYS = [
   {
     id:"d1", date:"09/05", weekday:"六", title:"第一日", theme:"抵達福岡・天神散策",
     items:[
-      {id:"d1-00", icon:"📋", title:"機場報到", lines:["04:00 🚕必須從內湖出門","05:00 🇹🇼抵達桃園機場第一航廈","06:45 ✈️出發～♡","10:05 🇯🇵抵達福岡機場"], info-2:true},
+      {id:"d1-00", icon:"📋", title:"機場報到", lines:["04:00 🚕必須從內湖出門","05:00 🇹🇼抵達桃園機場第一航廈","06:45 ✈️出發～♡","10:05 🇯🇵抵達福岡機場"], "info-2":true},
       {id:"d1-01", icon:"🚇", title:"搭乘地鐵前進市區（約30min）", lines:["🆓 先搭接駁巴士到國內線航廈轉乘地鐵","福岡空港駅","｜地下鐵空港線（11min，¥260）","天神駅，往西6號出口出站步行3min"]},
       {id:"d1-02", icon:"🏨", title:"飯店check in：Richmond Hotel 里士滿酒店天神西通", lines:["リッチモンドホテル天神西通"], map:"里士滿酒店天神西通"},
       {id:"d1-03", time:"12:00", icon:"🚶", title:"步行約10min去吃午餐：博多名物海鮮定食🐟", chips:[{t:"hours",text:"11:00～14:30"},{t:"reservation",text:"預計預約12:15"},{t:"payment",text:"可刷卡"}], map:"博多爐端 魚男 Fukuoka"},
@@ -295,7 +296,7 @@ const DAYS = [
       {id:"d5-08", icon:"🛍️", title:"步行到博多運河城Shopping！", chips:[{t:"hours",text:"～21:00"}], lines:["🧃Center Walk","B1F 橡子共和國","B1F JUMP SHOP","B1F 迪士尼商店","B1F THANK YOU MART","🧃South Bldg.","B1F~1F BANDAI Cross Store","1F~3F Alpen FUKUOKA","🧃North Bldg.","1F~2F 松本清","3F~4F 無印良品"], map:"博多運河城 Fukuoka"},
       {id:"d5-09", time:"15:30", icon:"🧳", title:"回飯店領行李", lines:["櫛田神社前駅","｜地鐵七隈線（1min，¥210）","天神南駅，往2號出口出站步行11min"]},
       {id:"d5-10", time:"16:00", icon:"🚇", title:"搭地鐵前往福岡機場", lines:["天神駅","｜地下鐵空港線（11min，¥260）","福岡空港駅，再搭接駁巴士到國際線航廈"]},
-      {id:"d5-11", icon:"📋", title:"機場報到", lines:["16:45 🇯🇵抵達福岡機場 ⚠️ 出境後再採買伴手禮","18:55 ✈️出發～♡","20:25 🇹🇼抵達桃園機場第一航廈"], info-2:true},
+      {id:"d5-11", icon:"📋", title:"機場報到", lines:["16:45 🇯🇵抵達福岡機場 ⚠️ 出境後再採買伴手禮","18:55 ✈️出發～♡","20:25 🇹🇼抵達桃園機場第一航廈"], "info-2":true},
     ]
   }
 ];
@@ -309,11 +310,11 @@ let currentRole = "girlfriend";
 let messages = [];
 
 /* ================= STORAGE HELPERS ================= */
-async function loadChecked(){
+function loadChecked(){
  const data = localStorage.getItem("kyushu-checked");
   checkedMap = data ? JSON.parse(data) : {};
 }
-async function saveChecked(){
+function saveChecked(){
  localStorage.setItem("kyushu-checked", JSON.stringify(checkedMap));
 }
 
@@ -364,14 +365,17 @@ function chipHtml(c){
   return '<span class="chip '+c.t+'">'+icon+' '+c.text+'</span>';
 }
 function itemHtml(it){
-  const done = !it.info && !!checkedMap[it.id];
+  const isInfo2 = it['info-2'] || it.info2;
+  const isInfoOrInfo2 = !!it.info || isInfo2;
+  const done = !it.info && !isInfo2 && !!checkedMap[it.id];
   const lines = (it.lines||[]).map(l => '<div>'+l+'</div>').join("");
   const chips = (it.chips||[]).map(chipHtml).join("");
   const map = it.map ? '<a class="map-btn" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(it.map)+'" target="_blank" rel="noopener">📍 開啟 Google 地圖</a>' : "";
+  const cbStyle = isInfoOrInfo2 ? 'style="visibility: hidden;"' : '';
   const cbClass = "checkbox" + (done ? " checked" : "");
   return (
-    '<div class="item'+(it.info?" info":"")+(done?" done":"")+'" data-id="'+it.id+'">'+
-      '<div class="'+cbClass+'" data-cb="'+it.id+'"></div>'+
+    '<div class="item'+(it.info?" info":"")+(isInfo2?" info-2":"")+(done?" done":"")+'" data-id="'+it.id+'">'+
+      '<div class="'+cbClass+'" data-cb="'+it.id+'" '+cbStyle+'></div>'+
       '<div class="item-body" data-body="'+it.id+'">'+
         '<div class="item-top">'+
           (it.time ? '<span class="item-time">'+it.time+'</span>' : '')+
@@ -387,7 +391,7 @@ function itemHtml(it){
 function renderDayPanel(){
   const day = DAYS[currentDay];
   const panel = document.getElementById("dayPanel");
-  const checkable = day.items.filter(it => !it.info);
+  const checkable = day.items.filter(it => !it.info && !it["info-2"]);
   const doneCount = checkable.filter(it => checkedMap[it.id]).length;
   const pct = checkable.length ? Math.round((doneCount/checkable.length)*100) : 0;
 
