@@ -160,50 +160,6 @@
     padding:6px 11px; border-radius:100px; text-decoration:none; -webkit-user-select:none; user-select:none;
   }
   .map-btn:active{transform:scale(0.94);}
-
-  /* ---------- Message board ---------- */
-  .msg-section{margin-top:26px;}
-  .msg-card{
-    background:var(--bg3); border:1px solid var(--border); border-radius:var(--r-lg);
-    overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,0.03);
-  }
-  .msg-head{padding:16px 18px 4px 18px;}
-  .msg-head h2{font-size:19px; font-weight:800; margin:0;}
-  .msg-head p{font-size:12.5px; color:var(--text2); margin:3px 0 0 0;}
-  .persona-toggle{display:flex; gap:8px; padding:12px 18px 14px 18px;}
-  .persona-btn{
-    flex:1; padding:9px 8px; border-radius:100px; border:none; font-size:13.5px; font-weight:700;
-    background:var(--bg2); color:var(--text2); cursor:pointer; transition:all .18s ease;
-  }
-  .persona-btn.role-girlfriend.active{background:var(--orange); color:#fff;}
-  .persona-btn.role-boyfriend.active{background:var(--green); color:#fff;}
-  .msg-list{padding:6px 14px 4px 14px; max-height:360px; overflow-y:auto; display:flex; flex-direction:column; gap:10px;}
-  .msg-empty{text-align:center; color:var(--text3); font-size:13px; padding:26px 10px;}
-  .bubble-row{display:flex; flex-direction:column; max-width:78%;}
-  .bubble-row.girlfriend{align-self:flex-start; align-items:flex-start;}
-  .bubble-row.boyfriend{align-self:flex-end; align-items:flex-end;}
-  .bubble-name{font-size:11px; color:var(--text2); font-weight:600; margin:0 4px 3px 4px;}
-  .bubble{
-    padding:9px 13px; border-radius:18px; font-size:14.5px; line-height:1.4; word-break:break-word;
-  }
-  .bubble-row.girlfriend .bubble{background:var(--pink); color:#fff; border-bottom-left-radius:5px;}
-  .bubble-row.boyfriend .bubble{background:var(--boy); color:#fff; border-bottom-right-radius:5px;}
-  .bubble-time{font-size:10.5px; color:var(--text3); margin:3px 5px 0 5px;}
-  .msg-compose{display:flex; gap:8px; padding:12px 14px calc(14px + env(safe-area-inset-bottom)) 14px; border-top:1px solid var(--border);}
-  .msg-compose input{
-    flex:1; border:none; background:var(--bg2); border-radius:100px; padding:11px 16px;
-    font-size:14.5px; font-family:var(--font); color:var(--text); outline:none;
-  }
-  .msg-send{
-    width:38px; height:38px; border-radius:50%; border:none; background:var(--blue); color:#fff;
-    font-size:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex:0 0 auto;
-  }
-  .msg-send:active{transform:scale(0.92);}
-  .msg-send:disabled{opacity:0.35;}
-
-  .app-footer{text-align:center; padding:26px 10px 6px 10px; color:var(--text3); font-size:12px;}
-
-  ::selection{background:var(--blue-tint);}
 </style>
 </head>
 <body>
@@ -221,24 +177,6 @@
   <nav class="day-switcher" id="daySwitcher"></nav>
 
   <main id="dayPanel"></main>
-
-  <section class="msg-section">
-    <div class="msg-card">
-      <div class="msg-head">
-        <h2>💬 留言板</h2>
-        <p>訊息會同步給對方，選好你是誰再送出喔!</p>
-      </div>
-      <div class="persona-toggle">
-        <button class="persona-btn role-girlfriend active" data-role="girlfriend">🍑 可愛女友</button>
-        <button class="persona-btn role-boyfriend" data-role="boyfriend">🍆 帥氣男友</button>
-      </div>
-      <div class="msg-list" id="msgList"></div>
-      <div class="msg-compose">
-        <input id="msgInput" type="text" placeholder="輸入訊息…" maxlength="300" />
-        <button class="msg-send" id="msgSend">➤</button>
-      </div>
-    </div>
-  </section>
 
   <footer class="app-footer">Made with 🧡 for our Kyushu trip · 2026/09/05–09/09</footer>
 </div>
@@ -482,71 +420,12 @@ function toggleItem(id){
   saveChecked();
 }
 
-/* ================= MESSAGE BOARD ================= */
-function fmtTime(ts){
-  const d = new Date(ts);
-  return (d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
-}
-function renderMessages(){
-  const list = document.getElementById("msgList");
-  if(!messages.length){
-    list.innerHTML = '<div class="msg-empty">還沒有留言，說句話給對方吧 💌</div>';
-    return;
-  }
-  list.innerHTML = messages.map(m => {
-    const name = m.role === "girlfriend" ? "🍑 可愛女友" : "🍆 帥氣男友";
-    return (
-      '<div class="bubble-row '+m.role+'">'+
-        '<div class="bubble-name">'+name+'</div>'+
-        '<div class="bubble">'+escapeHtml(m.text)+'</div>'+
-        '<div class="bubble-time">'+fmtTime(m.ts)+'</div>'+
-      '</div>'
-    );
-  }).join("");
-  list.scrollTop = list.scrollHeight;
-}
-function escapeHtml(s){
-  return s.replace(/[&<>"']/g, function(m) {
-    return {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[m];
-  });
-}
-function setupMsgUI(){
-  document.querySelectorAll(".persona-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      currentRole = btn.getAttribute("data-role");
-      document.querySelectorAll(".persona-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-    });
-  });
-  const input = document.getElementById("msgInput");
-  const sendBtn = document.getElementById("msgSend");
-  async function send(){
-    const text = input.value.trim();
-    if(!text) return;
-    messages.push({role: currentRole, text, ts: Date.now()});
-    input.value = "";
-    renderMessages();
-    await saveMessages();
-  }
-  sendBtn.addEventListener("click", send);
-  input.addEventListener("keydown", (e) => { if(e.key === "Enter") send(); });
-}
-
 /* ================= INIT ================= */
 function init(){
   renderNotif();
   loadChecked();
   renderDaySwitcher();
   renderDayPanel();
-  loadMessages();
-  renderMessages();
-  setupMsgUI();
 }
 init();
 </script>
