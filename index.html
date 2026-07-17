@@ -751,16 +751,21 @@ function renderLedger() {
 
 
 /* ================= UTILS ================= */
-function copyToClipboard(text, element) {
-  const btn = element || (window.event ? window.event.target : null);
+function copyToClipboard(event, text) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  const btn = event ? event.currentTarget || event.target : null;
 
   const tempTextArea = document.createElement("textarea");
   tempTextArea.value = text;
-  tempTextArea.style.position = "fixed";
+  tempTextArea.style.position = "fixed"; 
   tempTextArea.style.opacity = "0";
   document.body.appendChild(tempTextArea);
   tempTextArea.select();
-  tempTextArea.setSelectionRange(0, 99999); 
+  tempTextArea.setSelectionRange(0, 99999);
   
   try {
     document.execCommand("copy");
@@ -769,7 +774,6 @@ function copyToClipboard(text, element) {
       const originalText = btn.innerHTML;
       btn.innerHTML = "✅ 已複製";
       btn.style.pointerEvents = "none";
-      btn.style.transition = "all 0.2s ease";
       
       setTimeout(() => {
         btn.innerHTML = originalText;
@@ -778,7 +782,6 @@ function copyToClipboard(text, element) {
     }
   } catch (err) {
     console.error("❎ 複製失敗:", err);
-    alert("複製失敗，請手動複製。");
   }
 
   document.body.removeChild(tempTextArea);
