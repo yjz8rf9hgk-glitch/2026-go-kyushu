@@ -41,7 +41,9 @@
     --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang TC","Helvetica Neue",Arial,sans-serif;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font);}
+  html,body{
+    margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font); overflow-x: hidden; 
+  }
   body{
     padding-bottom: calc(24px + env(safe-area-inset-bottom));
     -webkit-font-smoothing:antialiased;
@@ -50,12 +52,10 @@
 
   /* ---------- Header ---------- */
   .topbar{
-    position:sticky; top:0; z-index:50;
-    background:rgba(255,255,255,0.86);
-    backdrop-filter:saturate(180%) blur(20px);
-    -webkit-backdrop-filter:saturate(180%) blur(20px);
-    padding:calc(14px + env(safe-area-inset-top)) 16px 10px 16px;
-    margin:0 -16px; border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:150; background:rgba(255,255,255,0.86);
+    backdrop-filter:saturate(180%) blur(20px); webkit-backdrop-filter:saturate(180%) blur(20px); 
+    padding:calc(14px + env(safe-area-inset-top)) 16px 10px 16px; margin:0 -16px; 
+    border-bottom:1px solid var(--border);
   }
   .topbar h1{
     margin:0; font-size:34px; font-weight:800; letter-spacing:-0.02em;
@@ -93,16 +93,15 @@
 
   /* ---------- Day switcher ---------- */
   .day-switcher{
-    display:flex; gap:8px; overflow-x:auto; padding:14px 0 8px 0;
-    background: var(--bg1);
-    border-bottom: 1px solid var(--border);
+    display:flex; gap:8px; overflow-x:auto; padding:14px 16px 8px 16px;
+    margin:0 -16px; background:rgba(255,255,255,0.95); border-bottom: 1px solid var(--border);
 
-    position: sticky; top: 0; z-index: 100;
+    position: sticky; top: calc(75px + env(safe-area-inset-top)); z-index: 100;
 
-    overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;
+    white-space: nowrap; webkit-overflow-scrolling: touch;
   }
-
   .day-switcher::-webkit-scrollbar{display:none;}
+  
   .day-pill{
     flex:0 0 auto; padding:8px 14px; border-radius:100px; font-size:13.5px; font-weight:600;
     background:var(--bg2); color:var(--text); border:1px solid transparent;
@@ -151,7 +150,13 @@
   .item.info-1 .checkbox{visibility:hidden;}
   .item.info-2 .checkbox{visibility:hidden;}
   .item-body{flex:1; min-width:0; cursor:pointer;}
-  .item-top{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap;}
+  
+  .item-top {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+  }
+  .item-title-wrapper {
+    display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; flex: 1; min-width: 0;
+  }
   .item-time{font-size:13px; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums;}
   .item-title{font-size:15px; font-weight:600; line-height:1.35;}
   .item.done .item-title{color:var(--text2); text-decoration:line-through; text-decoration-color:var(--text3);}
@@ -183,10 +188,18 @@
   }
   .coupon-btn:active{transform: scale(0.94); }
 
+  .copy-btn {
+    background: var(--bg2); border: 1px solid var(--border); color: var(--text2);
+    font-size: 10px; padding: 2px 7px; border-radius: 12px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 2px; transition: all 0.1s ease;
+    flex-shrink: 0; margin-left: auto;
+  }
+  .copy-btn:active { transform: scale(0.93); }
+
 
   /* ---------- More Coupon ---------- */
   .coupon-container {
-    padding: 0 16px; margin: 24px 0 8px 0;
+    padding: 0; margin: 24px 0 8px 0;
   }
   .coupon-shortcut-btn {
    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; background: linear-gradient(135deg, #ffefe5, #fff5f0); border: 1.5px dashed #ff8a65; border-radius: var(--r-lg); color: #e65100; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 4px rgba(230, 81, 0, 0.04);transition: all 0.2s ease;
@@ -203,16 +216,19 @@
 .ledger-card {
   background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--r-lg); padding: 18px; margin-top: 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03); width: 100%;
 }
 .ledger-title{ font-size: 20px; font-weight: 800; margin-bottom: 12px; }
 .form-group{ margin-bottom: 12px; }
 .form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
-.input-row { display: flex; gap: 8px; }
+.input-row { display: flex; gap: 8px; width: 100%; }
 .ledger-input {
-  flex: 1; padding: 10px 12px; border: 1px solid var(--border);
-  border-radius: var(--r-md); font-size: 14px; background: #fff; outline: none;
+  padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: var(--r-md); font-size: 14px; background: #fff; outline: none; min-width: 0;
 }
+#txTitle { flex: 1; }
+#txAmount { flex: 0 0 90px; width: 90px; }
+
 .select-box {
   display: flex; gap: 6px; width: 100%;
 }
@@ -256,9 +272,11 @@
 .delete-btn {
   background: transparent; border: none; color: var(--pink); font-size: 12px; cursor: pointer; padding: 4px;
 }
+.app-footer {
+  text-align: center; font-size: 11px; color: var(--text3); margin-top: 30px; padding-bottom: 20px;
+}
 
-
-    /* ---------- Surprise ---------- */
+/* ---------- Surprise ---------- */
 .celebrate-particle {
   position: fixed; pointer-events: none; z-index: 9999; font-size: 20px; user-select: none; animation: fallAndSpin 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
@@ -275,7 +293,7 @@
 
   <header class="topbar">
     <h1>2026 Kyushu</h1>
-    <p class="subtitle">承辦單位：♥無論如何疼女友旅行社♥</p>
+    <p class="subtitle">承辦單位：♥ 無論如何疼女友旅行社 ♥</p>
   </header>
 
   <div class="notif-wrap">
@@ -365,7 +383,7 @@ const DAYS = [
       {id:"d3-03", time:"08:00", icon:"🚄", title:"出發前往長崎（100min）", lines:["🎫 先買車票，自由席來回共¥11,920","博多駅（08:12發車）","｜JR特急接力海鷗號（60min）","武雄溫泉駅，走下車到對面上車","｜西九州新幹線海鷗號（30min）","長崎駅"]},
       {id:"d3-04", time:"09:55", icon:"📍", title:"抵達長崎，搭乘路面電車前往原爆資料館", lines:["長崎站前","｜路面電車 赤迫行（5min，¥150）","原爆資料館，步行4min"]},
       {id:"d3-05", time:"10:15", icon:"🏛️", title:"抵達長崎原爆資料館", chips:[{t:"hours",text:"08:30～18:30"},{t:"note",text:"門票1人¥200"}], map:"長崎原爆資料館"},
-      {id:"d3-06", icon:"🕊️", title:"平和公園", lines:["1945/8/9 11:02 原子彈落在此處"], map:"原子爆弾落下中心地碑 Nagasaki"},
+      {id:"d3-06", icon:"🕊️", title:"平和公園", lines:["1945/8/9 11:02 原子彈落在此處"], map:"原子爆彈落下中心地碑 Nagasaki"},
       {id:"d3-07", time:"11:30", icon:"⛴️", title:"前往大波止碼頭", lines:["原爆資料館","｜路面電車 崇福寺行（13min，¥150）","大波止，步行5min"]},
       {id:"d3-08", icon:"⛴️", title:"前往 やまさ海運 報到", lines:["📍 長崎港客運終端大樓1F 7號窗口","📎 予約番号535682，参加料金は当日徴収いたします","💴 2人合計¥9,900（税込）","🧾 事先列印並填上陸誓約書（1人1份）","✏️ 現場再填寫旅客名簿"], map:"長崎港ターミナルビル"},
       {id:"d3-09", icon:"🍱", title:"午餐在港口簡單吃"},
@@ -413,7 +431,7 @@ const DAYS = [
   }
 ];
 
-const CHIP_ICON = {hours:"🕐", reservation:"🔖", payment:"💳", warning:"⚠️", tip:"✨", note:"📝"};
+const CHIP_ICON = {hours:"🕐", reservation:"🈯", payment:"💳", warning:"⚠️", tip:"✨", note:"📝"};
 
 /* ================= STATE ================= */
 let checkedMap = {};
@@ -447,7 +465,7 @@ function renderNotif(){
     sub = "好好享受九州的每一刻 ✨";
   } else {
     title = "九州旅行已經結束了";
-    sub = "希望這一趟玩得開心，隨時可以回來看回憶💛";
+    sub = "希望這一趟玩得開心💛";
   }
   el.innerHTML =
     '<div class="notif-icon">'+icon+'</div>'+
@@ -484,16 +502,22 @@ function itemHtml(it){
   const lines = (it.lines||[]).map(l => '<div>'+l+'</div>').join("");
   const chips = (it.chips||[]).map(chipHtml).join("");
   const map = it.map ? '<a class="map-btn" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(it.map)+'" target="_blank" rel="noopener">📍 開啟 Google 地圖</a>' : "";
-  const coupon = it.coupon ? '<a class="coupon-btn" href="'+it.coupon+'" target="_blank" rel="noopener">🎫 優惠券這邊領!</a>' : "";
+  const coupon = it.coupon ? '<a class="coupon-btn" href="'+it.coupon+'" target="_blank" rel="noopener">🎫 優惠券這邊領</a>' : "";
   const cbStyle = isInfo1OrInfo2 ? 'style="visibility: hidden;"' : '';
   const cbClass = "checkbox" + (done? " checked" : "");
+  
+  const copyBtnHtml = it.map ? `<button class="copy-btn" onclick="copyToClipboard(event, '${it.map.replace(/'/g, "\\'")}')">📋 複製</button>` : '';
+
   return (
 '<div class="item'+(isInfo1?" info-1":"")+(isInfo2?" info-2":"")+(done?" done":"")+'" data-id="'+it.id+'">'+
       '<div class="'+cbClass+'" data-cb="'+it.id+'" '+cbStyle+'></div>'+
       '<div class="item-body" data-body="'+it.id+'">'+
         '<div class="item-top">'+
-          (it.time ? '<span class="item-time">'+it.time+'</span>' : '')+
-          '<span class="item-title">'+it.icon+' '+it.title+'</span>'+
+          '<div class="item-title-wrapper">'+
+            (it.time ? '<span class="item-time">'+it.time+'</span>' : '')+
+            '<span class="item-title">'+it.icon+' '+it.title+'</span>'+
+          '</div>'+
+          copyBtnHtml +
         '</div>'+
         (lines ? '<div class="item-lines">'+lines+'</div>' : '')+
         (chips ? '<div class="chips">'+chips+'</div>' : '')+
@@ -525,19 +549,26 @@ function renderDayPanel(){
     '</div>';
 
   panel.querySelectorAll("[data-cb]").forEach(cb => {
-    cb.addEventListener("click", (e) => toggleItem(e.currentTarget.getAttribute("data-cb")));
+    cb.addEventListener("click", (e) => toggleItem(e, e.currentTarget.getAttribute("data-cb")));
   });
   panel.querySelectorAll("[data-body]").forEach(b => {
     b.addEventListener("click", (e) => {
-      if(e.target.closest(".map-btn") || e.target.closest(".coupon-btn")) return;
-      toggleItem(e.currentTarget.getAttribute("data-body"));
+      if(e.target.closest(".map-btn") || e.target.closest(".coupon-btn") || e.target.closest(".copy-btn")) return;
+      toggleItem(e, e.currentTarget.getAttribute("data-body"));
     });
   });
 }
-function toggleItem(id){
+
+function toggleItem(event, id){
+  const wasDone = !!checkedMap[id];
   checkedMap[id] = !checkedMap[id];
+  
   renderDayPanel();
   saveChecked();
+
+  if (!wasDone && checkedMap[id]) {
+    triggerCelebration(event);
+  }
 }
 
 /* ================= Books ================= */
@@ -593,7 +624,7 @@ function renderLedger() {
       <label>✍️ 消費項目與金額</label>
       <div class="input-row">
         <input type="text" id="txTitle" class="ledger-input" placeholder="例：拉麵">
-        <input type="number" id="txAmount" class="ledger-input" style="flex:0 0 100px;" placeholder="$ 金額">
+        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額">
       </div>
     </div>
 
@@ -615,7 +646,7 @@ function renderLedger() {
       </div>
     </div>
 
-    <button class="submit-btn" onclick="addTransaction()">📥 記下一筆</button>
+    <button class="submit-btn" onclick="addTransaction(event)">📥 記下一筆</button>
 
     <!-- 數據結算看板 -->
     <div class="summary-board">
@@ -633,10 +664,10 @@ function renderLedger() {
     </div>
 
     <!-- 歷史明細 -->
-    <div class="history-title">📜 記帳明細</div>
+    <div class="history-title">📜 消費明細</div>
     <div class="ledger-list">
       ${txList.map((tx, idx) => {
-        const typeBadge = tx.type === 'joint' ? '👩🏻‍❤️‍👨🏻 共同' : '💸 個人';
+        const typeBadge = tx.type === 'joint' ? '👩🏻‍❤️‍👨🏻 共同花費' : '💸 個人花費';
         const payerName = tx.payer === 'girl' ? '🍑 漂亮女友' : '🍆 帥氣男友';
         return `
           <div class="ledger-item">
@@ -655,16 +686,15 @@ function renderLedger() {
   `;
 }
 
+function setTxType(type) { currentType = type; renderLedger(); }
+function setTxPayer(payer) { currentPayer = payer; renderLedger(); }
 
-function setTxType(type) { currentType=type; renderLedger(); }
-function setTxPayer(payer) { currentPayer=payer; renderLedger(); }
-
-function addTransaction() {
+function addTransaction(event) {
   const titleEl = document.getElementById("txTitle");
   const amountEl = document.getElementById("txAmount");
   
   if (!titleEl.value.trim() || !amountEl.value) {
-    alert("喂！要輸入完整的消費項目與金額啦！");
+    alert("請輸入完整的消費項目與金額項目唷！");
     return;
   }
 
@@ -683,11 +713,11 @@ function addTransaction() {
   saveLedger();
   renderLedger();
 
-  
+  triggerCelebration(event);
+
   titleEl.value = "";
   amountEl.value = "";
 }
-
 
 function deleteTransaction(index) {
   if(confirm("確定要刪除這筆花費嗎？")) {
@@ -697,34 +727,72 @@ function deleteTransaction(index) {
   }
 }
 
-
-  /* ================= Surprise effects ================= */
+/* ================= Surprise effects ================= */
 function triggerCelebration(event) {
-  if (!event) return; const rect = event.target.getBoundingClientRect();
-  const startX = rect.left + rect.width / 2; const startY = rect.top + rect.height / 2;
+  if (!event) return;
 
-  const particles = ["🍜", "🌸", "🍮", "🍵", "🍙", "🍣", "🍡"]; const particleCount = 30;
+  const rect = event.target.getBoundingClientRect();
+  const startX = rect.left + rect.width / 2;
+  const startY = rect.top + rect.height / 2;
+
+  const particles = ["🍜", "🌸", "🍮", "🍵", "🍙", "🍣", "🍡"];
+  const particleCount = 15;
 
   for (let i = 0; i < particleCount; i++) {
-    const el = document.createElement("div"); el.className = "celebrate-particle"; el.textContent = particles[Math.floor(Math.random() * particles.length)];
+    const el = document.createElement("div");
+    el.className = "celebrate-particle";
+    el.textContent = particles[Math.floor(Math.random() * particles.length)];
     
-    const angle = (Math.random() * 360 * Math.PI) / 180; const velocity = 50 + Math.random() * 100;
+    const angle = (Math.random() * 360 * Math.PI) / 180;
+    const velocity = 50 + Math.random() * 100;
     
-    const tx = Math.cos(angle) * velocity; const tyRise = Math.sin(angle) * velocity - 20; const txEnd = tx * 1.3 + (Math.random() * 40 - 20); const tyFall = tyRise + 120 + Math.random() * 50;
+    const tx = Math.cos(angle) * velocity;
+    const tyRise = Math.sin(angle) * velocity - 20;
+    const txEnd = tx * 1.3 + (Math.random() * 40 - 20);
+    const tyFall = tyRise + 120 + Math.random() * 50;
     
-    const rotMid = Math.random() * 180 - 90; const rotEnd = Math.random() * 360 - 180;
+    const rotMid = Math.random() * 180 - 90;
+    const rotEnd = Math.random() * 360 - 180;
 
     el.style.left = `${startX}px`;
     el.style.top = `${startY}px`;
     el.style.setProperty("--tx", `${tx}px`);
-    el.style.setProperty("--ty-rise", `${tyRise}px`); el.style.setProperty("--tx-end", `${txEnd}px`); el.style.setProperty("--ty-fall", `${tyFall}px`); el.style.setProperty("--rot-mid", `${rotMid}deg`); el.style.setProperty("--rot-end", `${rotEnd}deg`);
+    el.style.setProperty("--ty-rise", `${tyRise}px`);
+    el.style.setProperty("--tx-end", `${txEnd}px`);
+    el.style.setProperty("--ty-fall", `${tyFall}px`);
+    el.style.setProperty("--rot-mid", `${rotMid}deg`);
+    el.style.setProperty("--rot-end", `${rotEnd}deg`);
 
     document.body.appendChild(el);
-    el.addEventListener("animationend", () => {el.remove();});
+
+    el.addEventListener("animationend", () => {
+      el.remove();
+    });
   }
 }
 
-  
+/* ================= Copy ================= */
+function copyToClipboard(event, text) {
+  event.stopPropagation(); 
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.currentTarget;
+    const originalText = btn.innerHTML;
+    
+    btn.innerHTML = "✅ 已複製";
+    btn.style.borderColor = "var(--green)";
+    btn.style.color = "var(--green)";
+    
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.borderColor = "";
+      btn.style.color = "";
+    }, 1000);
+  }).catch(err => {
+    console.error("❎ 複製失敗: ", err);
+    alert("請手動複製！");
+  });
+}
+
 /* ================= INIT ================= */
 function init(){
   renderNotif();
@@ -734,7 +802,8 @@ function init(){
   loadLedger(); 
   renderLedger();
 }
-init();
+
+window.onload = init;
 </script>
 </body>
 </html>
