@@ -603,73 +603,105 @@ function saveTempInputs() {
 function selectType(type) {
   saveTempInputs();
   currentType = type;
-  
-  document.querySelectorAll(".type-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-  const activeBtn = document.getElementById(`btn-type-${type}`);
-  if (activeBtn) activeBtn.classList.add("active");
+  renderLedger();
 }
 
 function selectPayer(payer) {
   saveTempInputs();
   currentPayer = payer;
-  
-  document.querySelectorAll(".payer-btn").forEach(btn => {
-    btn.classList.remove("active", "orange", "boy");
-  });
-  const activeBtn = document.getElementById(`btn-payer-${payer}`);
-  if (activeBtn) {
-    activeBtn.classList.add("active");
-    if (payer === "girl") activeBtn.classList.add("orange");
-    if (payer === "boy") activeBtn.classList.add("boy");
+  renderLedger();
+}
+
+function addTx() {
+  const titleEl = document.getElementById("txTitle");
+  const amountEl = document.getElementById("txAmount");
+  const title = titleEl.value.trim();
+  const amount = parseFloat(amountEl.value);
+
+  if (!title) {
+    alert("請輸入項目名稱");
+    return;
   }
+  if (isNaN(amount) || amount <= 0) {
+    alert("請輸入正確的金額");
+    return;
+  }
+
+  const newTx = {
+    id: "tx-" + Date.now(),
+    title: title,
+    amount: amount,
+    type: currentType,
+    payer: currentPayer,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  };
+
+    txList.push(newTx);
+  saveLedger();
+  
+  tempTitle = "";
+  tempAmount = "";
+  renderLedger();
+}
+
+function deleteTx(id) {
+  txList = txList.filter(tx => tx.id !== id);
+  saveLedger();
+  renderLedger();
 }
 
 function renderLedger() {
   const container = document.getElementById("ledgerApp");
-  
+  if (!container) return;
+
+  let jointTotal = 0;
   let girlPrivateTotal = 0;
   let boyPrivateTotal = 0;
-  let jointTotal = 0;
   let girlPaidJoint = 0;
   let boyPaidJoint = 0;
 
   txList.forEach(tx => {
-    const amt = parseFloat(tx.amount) || 0;
-    if (tx.type === "joint") {
-      jointTotal += amt;
-      if (tx.payer === "girl") girlPaidJoint += amt;
-      if (tx.payer === "boy") boyPaidJoint += amt;
-    } else {
-      if (tx.payer === "girl") girlPrivateTotal += amt;
-      if (tx.payer === "boy") boyPrivateTotal += amt;
+  if (tx.type === "joint") {
+      jointTotal += tx.amount;
+  if (tx.payer === "girl") {
+        girlPaidJoint += tx.amount;
+      } else {
+        boyPaidJoint += tx.amount;
+      }
+      } else {
+  if (tx.payer === "girl") {girlPrivateTotal += tx.amount;} else {boyPrivateTotal += tx.amount;
+      }
     }
   });
 
   const halfJoint = jointTotal / 2;
-  const girlFinalTotal = girlPrivateTotal + halfJoint;
-  const boyFinalTotal = boyPrivateTotal + halfJoint;
-
-  let settlementText = "💰 完全不用給對方，讚！";
+  let transferText = "";
   if (girlPaidJoint > halfJoint) {
-    settlementText = `🍆 帥氣男友 應給 🍑 漂亮女友 $${Math.round(girlPaidJoint - halfJoint)}`;
+    transferText = `🍆 帥氣男友 應給 🍑 漂亮女友 <span class="bold">$${Math.round(girlPaidJoint - halfJoint)}</span>`;
   } else if (boyPaidJoint > halfJoint) {
-    settlementText = `🍑 漂亮女友 應給 🍆 帥氣男友 $${Math.round(boyPaidJoint - halfJoint)}`;
+    transferText = `🍑 漂亮女友 應給 🍆 帥氣男友 <span class="bold">$${Math.round(boyPaidJoint - halfJoint)}</span>`;
+  } else {
+    transferText = "💰 完全不用給對方，讚！";
   }
 
+  const listHtml = txList.map(tx => {
+    const payerLabel = tx.payer === "girl" ? "🍑 漂亮女友" : "🍆 帥氣男友";
+    const typeLabel = tx.type === "joint" ? "👩🏻‍❤️‍👨🏻 共同花費" : "💸 個人花費";
+    return `
+      <div class="ledger-item">
+        <div>
+          <div style="font-weight:600;">${tx.title}</div>
+          <div class="item-meta">${typeLabel} · ${payerLabel}支付 · ${tx.time}</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-weight:700;">¥${tx.amount}</span>
+          <button class="delete-btn" onclick="deleteTx('${tx.id}')">❌刪除</button>
+        </div>
+      </div>
+    `;
+  }).reverse().join("");
 
   container.innerHTML = `
-    <!-- 項目與金額輸入 -->
-    <div class="form-group">
-      <label>✍️ 消費項目與金額</label>
-      <div class="input-row">
-        <input type="text" id="txTitle" class="ledger-input" placeholder="項目 (如：布丁)" value="${tempTitle}" oninput="tempTitle=this.value">
-        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額" value="${tempAmount}" oninput="tempAmount=this.value">
-      </div>
-    </div>
-
-    <!-- 付款類型 -->
     <div class="form-group">
       <label>📌 消費類別</label>
       <div class="select-box">
@@ -678,7 +710,6 @@ function renderLedger() {
       </div>
     </div>
 
-    <!-- 誰付款 -->
     <div class="form-group">
       <label>💳 由誰付款 / 誰的個人花費</label>
       <div class="select-box">
@@ -687,9 +718,16 @@ function renderLedger() {
       </div>
     </div>
 
+    <div class="form-group">
+      <label>✍️ 消費項目與金額</label>
+      <div class="input-row">
+        <input type="text" id="txTitle" class="ledger-input" placeholder="項目 (如：布丁)" value="${tempTitle}" oninput="tempTitle=this.value">
+        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額" value="${tempAmount}" oninput="tempAmount=this.value">
+      </div>
+    </div>
+
     <button class="submit-btn" onclick="addTx()">📥 新增</button>
 
-    <!-- 計算統計看板 -->
     <div class="summary-board">
       <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額:</span><span class="bold">$${jointTotal}</span></div>
       <div class="summary-row"><span>👥 共同平分金額:</span><span class="bold">$${halfJoint}</span></div>
@@ -706,166 +744,64 @@ function renderLedger() {
 
     <!-- 歷史紀錄 --> 
     <div class="history-title">📜 消費明細</div>
-    <div class="ledger-list" id="ledgerList"></div> 
-    `;
-
-renderLedgerList();
-}
-
-function renderLedgerList() {
-  const listEl = document.getElementById("ledgerList");
-  if (!listEl) return;
-  listEl.innerHTML = "";
-
-  if (txList.length === 0) {
-    listEl.innerHTML = `<div style="text-align:center; color:var(--text3); font-size:13px; padding:20px 0;">目前尚無記帳紀錄唷～</div>`;
-    return;
+    <div class="ledger-list">${listHtml || '<div style="text-align:center; color:var(--text3); padding:20px; font-size:13px;">目前尚無記帳紀錄唷～</div>'}</div>
+  `;
   }
 
-  [...txList].reverse().forEach((tx, revIdx) => {
-    const actualIdx = txList.length - 1 - revIdx;
-    const item = document.createElement("div");
-    item.className = "ledger-item";
-    const payerTag = tx.payer === "girl" ? "🍑 漂亮女友" : "🍆 帥氣男友";
-    const typeTag = tx.type === "joint" ? "👩🏻‍❤️‍👨🏻 共同花費" : "💸 個人花費";
 
-  item.innerHTML = `
-      <div>
-        <div style="font-weight:600;">${tx.title || "未填寫項目"}</div>
-        <div class="item-meta">${payerTag}付 · ${typeTag}</div>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <span style="font-weight:700; font-family:monospace;">$${tx.amount}</span>
-        <button class="delete-btn" onclick="deleteTx(${actualIdx})">刪除</button>
-      </div>
-    `;
-    listEl.appendChild(item);
-  });
-}
-
-function addTx() {
-  const titleVal = tempTitle.trim();
-  const amtVal = parseFloat(tempAmount);
-
-  if (!titleVal) {
-    alert("請填寫消費項目內容唷！");
-    return;
-  }
-  if (isNaN(amtVal) || amtVal <= 0) {
-    alert("請輸入大於 0 的正確金額！");
-    return;
-  }
-
-txList.push({
-    title: titleVal,
-    amount: amtVal,
-    type: currentType,
-    payer: currentPayer
-  });
-    item.innerHTML = `
-      <div>
-        <div style="font-weight:600;">${tx.title || "未填寫項目"}</div>
-        <div class="item-meta">${payerTag}付 · ${typeTag}</div>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <span style="font-weight:700; font-family:monospace;">$${tx.amount}</span>
-        <button class="delete-btn" onclick="deleteTx(${actualIdx})">刪除</button>
-      </div>
-    `;
-    listEl.appendChild(item);
-  });
-}
-
-function addTx() {
-  const titleVal = tempTitle.trim();
-  const amtVal = parseFloat(tempAmount);
-
-  if (!titleVal) {
-    alert("請填寫消費項目內容唷！");
-    return;
-  }
-  if (isNaN(amtVal) || amtVal <= 0) {
-    alert("請輸入大於 0 的正確金額金額！");
-    return;
-  }
-
-  txList.push({
-    title: titleVal,
-    amount: amtVal,
-    type: currentType,
-    payer: currentPayer
-  });
-
-  tempTitle = "";
-  tempAmount = "";
-
-  saveLedger();
-  renderLedger();
-}
-
-function deleteTx(idx) {
-  if (confirm("確定要刪除這筆花費紀錄嗎？")) {
-    txList.splice(idx, 1);
-    saveLedger();
-    renderLedger();
-  }
-}
-
-/* ================= Surprise (由下往上噴灑櫻花特效) ================= */
+/* ================= Surprise ================= */
 function triggerCelebration(){
-  const count = 30;
-  const emojis = ["🌸", "🍣", "🍮", "✨", "💸", "🍡"];
-  
+  const emojis = ["🌸", "🍣", "🍮", "🇯🇵", "🧸", "🍡"];
+  const count = 18;
+  const topbar = document.getElementById("topbar");
+  const rect = topbar.getBoundingClientRect();
+  const startY = window.scrollY + rect.bottom;
+  const startX = rect.left + (rect.width / 2);
+
   for (let i = 0; i < count; i++) {
     const p = document.createElement("div");
     p.className = "celebrate-particle";
-    p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-    
-    const xStart = Math.random() * window.innerWidth;
-    const yStart = window.innerHeight + 50;
-    
-    const xMid = xStart + (Math.random() * 200 - 100);
-    const yMid = window.innerHeight * 0.4 + (Math.random() * 150);
-    
-    const xEnd = xMid + (Math.random() * 150 - 75);
-    const yEnd = window.innerHeight * 0.1 - (Math.random() * 100);
-    
-    const rMid = (Math.random() * 360) + "deg";
-    const rEnd = (Math.random() * 720 - 360) + "deg";
-    
-    p.style.setProperty("--tx-start", xStart + "px");
-    p.style.setProperty("--ty-start", yStart + "px");
-    p.style.setProperty("--tx-mid", xMid + "px");
-    p.style.setProperty("--ty-mid", yMid + "px");
-    p.style.setProperty("--tx-end", xEnd + "px");
-    p.style.setProperty("--ty-end", yEnd + "px");
-    p.style.setProperty("--rot-mid", rMid);
-    p.style.setProperty("--rot-end", rEnd);
-    
-    p.style.animationDelay = (Math.random() * 0.3) + "s";
-    
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    const txStart = `${startX}px`;
+    const tyStart = `${startY}px`;
+
+    const angle = (Math.random() * 80 + 50) * (Math.PI / 180); 
+    const dir = Math.random() < 0.5 ? -1 : 1;
+    const distMid = Math.random() * 80 + 60;
+    const distEnd = distMid + (Math.random() * 100 + 100);
+
+    const txMid = `${startX + Math.cos(angle) * distMid * dir}px`;
+    const tyMid = `${startY - Math.sin(angle) * distMid}px`;
+    const txEnd = `${startX + Math.cos(angle) * distEnd * dir}px`;
+    const tyEnd = `${startY + (Math.random() * 300 + 100)}px`;
+
+    p.style.setProperty("--tx-start", txStart);
+    p.style.setProperty("--ty-start", tyStart);
+    p.style.setProperty("--tx-mid", txMid);
+    p.style.setProperty("--ty-mid", tyMid);
+    p.style.setProperty("--tx-end", txEnd);
+    p.style.setProperty("--ty-end", tyEnd);
+
+    p.style.setProperty("--rot-mid", `${Math.random() * 180 - 90}deg`);
+    p.style.setProperty("--rot-end", `${Math.random() * 360 - 180}deg`);
+
+    p.style.left = "0";
+    p.style.top = "0";
+
     document.body.appendChild(p);
-    
-    setTimeout(() => { p.remove(); }, 2000);
+    p.addEventListener("animationend", () => p.remove());
   }
 }
+
 
 /* ================= UTILS ================= */
 function copyToClipboard(event, text) {
   event.stopPropagation();
   navigator.clipboard.writeText(text).then(() => {
-    const btn = event.currentTarget;
-    const oldText = btn.innerText;
-    btn.innerText = "✅ 已複製";
-    btn.style.background = "var(--green-tint)";
-    btn.style.color = "var(--green)";
-    setTimeout(() => {
-      btn.innerText = oldText;
-      btn.style.background = "var(--bg2)";
-      btn.style.color = "var(--text2)";
-    }, 1500);
+    alert("✅ 已複製： " + text);
   }).catch(err => {
-    console.error("❎ 複製失敗:", err);
+    console.error("❎ 複製失敗", err);
   });
 }
 
@@ -886,7 +822,6 @@ window.addEventListener("DOMContentLoaded", () => {
   renderDaySwitcher();
   renderDayPanel();
   renderLedger();
-  
   updateSwitcherStickyPosition();
   window.addEventListener("resize", updateSwitcherStickyPosition);
 });
