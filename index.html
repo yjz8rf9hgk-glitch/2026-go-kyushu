@@ -176,6 +176,65 @@
     padding: 6px 11px; border-radius:100px; text-decoration:none; -webkit-user-select:none; user-select:none;
   }
   .coupon-btn:active{transform: scale(0.94); }
+
+  /* ================= Spending ================= */
+.ledger-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 18px; margin-top: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.ledger-title{ font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+.form-group{ margin-bottom: 12px; }
+.form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
+.input-row { display: flex; gap: 8px; }
+.ledger-input {
+  flex: 1; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: var(--r-md); font-size: 14px; background: #fff; outline: none;
+}
+.select-box {
+  display: flex; gap: 6px; width: 100%;
+}
+.select-btn {
+  flex: 1; padding: 10px; border: 1px solid var(--border); background: #fff;
+  border-radius: var(--r-md); font-size: 13.5px; font-weight: 600; cursor: pointer;
+  text-align: center; transition: all 0.15s ease;
+}
+.select-btn.active {
+  background: var(--text); color: #fff; border-color: var(--text);
+}
+.select-btn.pink.active {
+  background: var(--pink); color: #fff; border-color: var(--pink);
+}
+.select-btn.boy.active {
+  background: var(--boy); color: #fff; border-color: var(--boy);
+}
+.submit-btn {
+  width: 100%; padding: 12px; border: none; background: var(--green); color: #fff;
+  border-radius: var(--r-md); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px;
+}
+.submit-btn:active { opacity: 0.9; }
+
+/* Summary */
+.summary-board {
+  background: var(--bg2); border-radius: var(--r-md); padding: 14px; margin: 16px 0;
+}
+.summary-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; color: var(--text2); }
+.summary-row.total { font-size: 15px; font-weight: 700; color: var(--text); border-top: 1px dashed var(--border); padding-top: 8px; margin-top: 8px; }
+.summary-row span.bold { font-weight: 700; color: var(--text); }
+
+/* History */
+.history-title { font-size: 14.5px; font-weight: 700; margin: 16px 0 8px 0; }
+.ledger-list { max-height: 250px; overflow-y: auto; }
+.ledger-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
+}
+.ledger-item:last-child { border-bottom: none; }
+.item-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.delete-btn {
+  background: transparent; border: none; color: var(--pink); font-size: 12px; cursor: pointer; padding: 4px;
+}
+  
 </style>
 </head>
 <body>
@@ -193,7 +252,12 @@
   <nav class="day-switcher" id="daySwitcher"></nav>
 
   <main id="dayPanel"></main>
-
+  
+  <div class="ledger-card">
+    <div class="ledger-title">📋 旅行記帳</div>
+    <div id="ledgerApp"></div>
+  </div>
+  
   <footer class="app-footer">Made with 🧡 for our Kyushu trip · 2026/09/05–09/09</footer>
 </div>
 
@@ -435,12 +499,173 @@ function toggleItem(id){
   saveChecked();
 }
 
+/* ================= Books ================= */
+let txList = [];
+let currentType = "joint";
+let currentPayer = "girl";
+
+function loadLedger() {
+  const data = localStorage.getItem("kyushu-ledger");
+  txList = data ? JSON.parse(data) : [];
+}
+
+function saveLedger() {
+  localStorage.setItem("kyushu-ledger", JSON.stringify(txList));
+}
+
+function renderLedger() {
+  const container = document.getElementById("ledgerApp");
+  
+  let girlPrivateTotal = 0;
+  let boyPrivateTotal = 0;
+  let jointTotal = 0;
+  let girlPaidJoint = 0;
+  let boyPaidJoint = 0;
+
+  txList.forEach(tx => {
+    const amt = parseFloat(tx.amount) || 0;
+    if (tx.type === "joint") {
+      jointTotal += amt;
+      if (tx.payer === "girl") girlPaidJoint += amt;
+      if (tx.payer === "boy") boyPaidJoint += amt;
+    } else {
+      if (tx.payer === "girl") girlPrivateTotal += amt;
+      if (tx.payer === "boy") boyPrivateTotal += amt;
+    }
+  });
+
+  const halfJoint = jointTotal / 2;
+  
+  const girlFinalTotal = girlPrivateTotal + halfJoint;
+  const boyFinalTotal = boyPrivateTotal + halfJoint;
+
+  let settlementText = "💰 完全不用給對方，讚！";
+  if (girlPaidJoint > halfJoint) {
+    settlementText = `🍆 帥氣男友 應給 🍑 漂亮女友 $${Math.round(girlPaidJoint - halfJoint)}`;
+  } else if (boyPaidJoint > halfJoint) {
+    settlementText = `🍑 漂亮女友 應給 🍆 帥氣男友 $${Math.round(boyPaidJoint - halfJoint)}`;
+  }
+
+  container.innerHTML = `
+    <!-- 項目與金額輸入 -->
+    <div class="form-group">
+      <label>✍️ 消費項目與金額</label>
+      <div class="input-row">
+        <input type="text" id="txTitle" class="ledger-input" placeholder="例：一蘭拉麵 / 藥妝">
+        <input type="number" id="txAmount" class="ledger-input" style="flex:0 0 100px;" placeholder="$ 金額">
+      </div>
+    </div>
+
+    <!-- 類別選擇 -->
+    <div class="form-group">
+      <label>📌 消費類別</label>
+      <div class="select-box">
+        <button class="select-btn ${currentType==='joint'?'active':''}" onclick="setTxType('joint')">👩🏻‍❤️‍👨🏻 共同花費</button>
+        <button class="select-btn ${currentType==='private'?'active':''}" onclick="setTxType('private')">💸 個人花費</button>
+      </div>
+    </div>
+
+    <!-- 付款人選擇 -->
+    <div class="form-group">
+      <label>💳 由誰付款 / 誰的個人花費</label>
+      <div class="select-box">
+        <button class="select-btn pink ${currentPayer==='girl'?'active':''}" onclick="setTxPayer('girl')">🍑 漂亮女友</button>
+        <button class="select-btn boy ${currentPayer==='boy'?'active':''}" onclick="setTxPayer('boy')">🍆 帥氣男友</button>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="addTransaction()">📥 記下一筆</button>
+
+    <!-- 數據結算看板 -->
+    <div class="summary-board">
+      <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額:</span><span class="bold">$${jointTotal}</span></div>
+      <div class="summary-row"><span>👥 共同平分金額:</span><span class="bold">$${halfJoint}</span></div>
+      <div class="summary-row"><span>🍑 女友個人花費:</span><span class="bold">$${girlPrivateTotal}</span></div>
+      <div class="summary-row"><span>🍆 男生個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
+      
+      <div class="summary-row total"><span>🍑 漂亮女友 總支出:</span><span class="bold" style="color:var(--pink);">¥${girlFinalTotal}</span></div>
+      <div class="summary-row total"><span>🍆 帥氣男友 總支出:</span><span class="bold" style="color:var(--boy);">¥${boyFinalTotal}</span></div>
+      
+      <div style="margin-top: 12px; padding: 8px; background:#fff; border-radius:8px; text-align:center; font-weight:800; color:var(--pink); font-size:14px;">
+        ${settlementText}
+      </div>
+    </div>
+
+    <!-- 歷史明細 -->
+    <div class="history-title">📜 記帳明細</div>
+    <div class="ledger-list">
+      ${txList.map((tx, idx) => {
+        const typeBadge = tx.type === 'joint' ? '👩🏻‍❤️‍👨🏻 共同' : '💸 個人';
+        const payerName = tx.payer === 'girl' ? '🍑 漂亮女友' : '🍆 帥氣男友';
+        return `
+          <div class="ledger-item">
+            <div>
+              <div style="font-weight:600;">${tx.title}</div>
+              <div class="item-meta">${tx.time} | ${typeBadge} (${payerName}付)</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; font-variant-numeric:tabular-nums;">$${tx.amount}</span>
+              <button class="delete-btn" onclick="deleteTransaction(${idx})">❌</button>
+            </div>
+          </div>
+        `;
+      }).reverse().join("") || '<div style="color:var(--text2); text-align:center; padding:20px; font-size:13px;">目前還沒有記帳紀錄喔！</div>'}
+    </div>
+  `;
+}
+
+
+function setTxType(type) { currentType = type; renderLedger(); }
+function setTxPayer(payer) { currentPayer = payer; renderLedger(); }
+
+// 新增記帳邏輯
+function addTransaction() {
+  const titleEl = document.getElementById("txTitle");
+  const amountEl = document.getElementById("txAmount");
+  
+  if (!titleEl.value.trim() || !amountEl.value) {
+    alert("喂！要輸入完整的消費項目與金額啦！");
+    return;
+  }
+
+  // 自動獲取當前時間格式 (HH:MM)
+  const now = new Date();
+  const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+  const newTx = {
+    title: titleEl.value.trim(),
+    amount: parseFloat(amountEl.value),
+    type: currentType,
+    payer: currentPayer,
+    time: timeStr
+  };
+
+  txList.push(newTx);
+  saveLedger();
+  renderLedger();
+
+  
+  titleEl.value = "";
+  amountEl.value = "";
+}
+
+
+function deleteTransaction(index) {
+  if(confirm("確定要刪除這筆花費嗎？")) {
+    txList.splice(index, 1);
+    saveLedger();
+    renderLedger();
+  }
+}
+  
 /* ================= INIT ================= */
 function init(){
   renderNotif();
   loadChecked();
   renderDaySwitcher();
   renderDayPanel();
+  loadLedger(); 
+  renderLedger();
 }
 init();
 </script>
