@@ -735,10 +735,15 @@ function renderLedger() {
 
     <div class="summary-board">
       <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額：</span><span class="bold">$${jointTotal}</span></div>
-      <div class="summary-row"><span>👥 共同花費平分:</span><span class="bold">$${halfJoint}</span></div>
+      <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費平分:</span><span class="bold">$${halfJoint}</span></div>
       <div class="summary-row"><span>🍑 女友個人花費:</span><span class="bold">$${girlPrivateTotal}</span></div>
       <div class="summary-row"><span>🍆 男生個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
+
+      <div class="summary-row total" style="margin-top: 10px; padding-top: 10px; border-top: 1.5px dashed var(--border); font-size: 16px;">
+        <span style="font-weight: 800;">👩🏻‍❤️‍👨🏻 共同花費結算：</span>
+        <span>${transferText}</span></div>
     </div>
+    
     <div class="history-title">📜 消費明細</div>
     <div class="ledger-list">${listHtml || '<div style="text-align:center; color:var(--text3); padding:20px; font-size:13px;">尚無記帳資料</div>'}</div>
   `;
