@@ -94,8 +94,14 @@
   /* ---------- Day switcher ---------- */
   .day-switcher{
     display:flex; gap:8px; overflow-x:auto; padding:14px 0 8px 0;
-    scrollbar-width:none;
+    background: var(--bg1);
+    border-bottom: 1px solid var(--border);
+
+    position: sticky; top: 0; z-index: 100;
+
+    overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;
   }
+
   .day-switcher::-webkit-scrollbar{display:none;}
   .day-pill{
     flex:0 0 auto; padding:8px 14px; border-radius:100px; font-size:13.5px; font-weight:600;
@@ -177,7 +183,23 @@
   }
   .coupon-btn:active{transform: scale(0.94); }
 
-  /* ================= Spending ================= */
+
+  /* ---------- More Coupon ---------- */
+  .coupon-container {
+    padding: 0 16px; margin: 24px 0 8px 0;
+  }
+  .coupon-shortcut-btn {
+   display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; background: linear-gradient(135deg, #ffefe5, #fff5f0); border: 1.5px dashed #ff8a65; border-radius: var(--r-lg); color: #e65100; font-size: 15px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 4px rgba(230, 81, 0, 0.04);transition: all 0.2s ease;
+  }
+  .coupon-shortcut-btn:active {
+   transform: scale(0.98); background: linear-gradient(135deg, #fbe9e7, #ffefe5);
+  }
+  .coupon-hint {
+   text-align: center; font-size: 11px; color: var(--text2); margin-top: 6px;
+  }
+
+  
+  /* ---------- Spending ---------- */
 .ledger-card {
   background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--r-lg); padding: 18px; margin-top: 16px;
@@ -234,7 +256,18 @@
 .delete-btn {
   background: transparent; border: none; color: var(--pink); font-size: 12px; cursor: pointer; padding: 4px;
 }
-  
+
+
+    /* ---------- Surprise ---------- */
+.celebrate-particle {
+  position: fixed; pointer-events: none; z-index: 9999; font-size: 20px; user-select: none; animation: fallAndSpin 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+@keyframes fallAndSpin {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(0); opacity: 0;}
+  15% { opacity: 1; transform: translate3d(var(--tx), var(--ty-rise), 0) rotate(var(--rot-mid)) scale(1.2);}
+  100% { transform: translate3d(var(--tx-end), var(--ty-fall), 0) rotate(var(--rot-end)) scale(0.6); opacity: 0;}
+}
+
 </style>
 </head>
 <body>
@@ -252,7 +285,14 @@
   <nav class="day-switcher" id="daySwitcher"></nav>
 
   <main id="dayPanel"></main>
-  
+
+  <div class="coupon-container">
+    <a href="https://gogojp.tw/fukuoka-coupon/" target="_blank" rel="noopener" class="coupon-shortcut-btn">
+      📢日本優惠券全攻略🛒
+    </a>
+    <div class="coupon-hint">💡點擊開啟新分頁，優惠券都在這👈</div>
+  </div>
+
   <div class="ledger-card">
     <div class="ledger-title">📋 旅行記帳</div>
     <div id="ledgerApp"></div>
@@ -262,6 +302,7 @@
 </div>
 
 <script>
+  
 /* ================= DATA ================= */
 const DAYS = [
   {
@@ -551,7 +592,7 @@ function renderLedger() {
     <div class="form-group">
       <label>✍️ 消費項目與金額</label>
       <div class="input-row">
-        <input type="text" id="txTitle" class="ledger-input" placeholder="例：一蘭拉麵 / 藥妝">
+        <input type="text" id="txTitle" class="ledger-input" placeholder="例：拉麵">
         <input type="number" id="txAmount" class="ledger-input" style="flex:0 0 100px;" placeholder="$ 金額">
       </div>
     </div>
@@ -583,8 +624,8 @@ function renderLedger() {
       <div class="summary-row"><span>🍑 女友個人花費:</span><span class="bold">$${girlPrivateTotal}</span></div>
       <div class="summary-row"><span>🍆 男生個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
       
-      <div class="summary-row total"><span>🍑 漂亮女友 總支出:</span><span class="bold" style="color:var(--pink);">¥${girlFinalTotal}</span></div>
-      <div class="summary-row total"><span>🍆 帥氣男友 總支出:</span><span class="bold" style="color:var(--boy);">¥${boyFinalTotal}</span></div>
+      <div class="summary-row total"><span>🍑 漂亮女友 總支出:</span><span class="bold" style="color:var(--pink);">$${girlFinalTotal}</span></div>
+      <div class="summary-row total"><span>🍆 帥氣男友 總支出:</span><span class="bold" style="color:var(--boy);">$${boyFinalTotal}</span></div>
       
       <div style="margin-top: 12px; padding: 8px; background:#fff; border-radius:8px; text-align:center; font-weight:800; color:var(--pink); font-size:14px;">
         ${settlementText}
@@ -615,10 +656,9 @@ function renderLedger() {
 }
 
 
-function setTxType(type) { currentType = type; renderLedger(); }
-function setTxPayer(payer) { currentPayer = payer; renderLedger(); }
+function setTxType(type) { currentType=type; renderLedger(); }
+function setTxPayer(payer) { currentPayer=payer; renderLedger(); }
 
-// 新增記帳邏輯
 function addTransaction() {
   const titleEl = document.getElementById("txTitle");
   const amountEl = document.getElementById("txAmount");
@@ -628,7 +668,6 @@ function addTransaction() {
     return;
   }
 
-  // 自動獲取當前時間格式 (HH:MM)
   const now = new Date();
   const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
@@ -657,6 +696,34 @@ function deleteTransaction(index) {
     renderLedger();
   }
 }
+
+
+  /* ================= Surprise effects ================= */
+function triggerCelebration(event) {
+  if (!event) return; const rect = event.target.getBoundingClientRect();
+  const startX = rect.left + rect.width / 2; const startY = rect.top + rect.height / 2;
+
+  const particles = ["🍜", "🌸", "🍮", "🍵", "🍙", "🍣", "🍡"]; const particleCount = 30;
+
+  for (let i = 0; i < particleCount; i++) {
+    const el = document.createElement("div"); el.className = "celebrate-particle"; el.textContent = particles[Math.floor(Math.random() * particles.length)];
+    
+    const angle = (Math.random() * 360 * Math.PI) / 180; const velocity = 50 + Math.random() * 100;
+    
+    const tx = Math.cos(angle) * velocity; const tyRise = Math.sin(angle) * velocity - 20; const txEnd = tx * 1.3 + (Math.random() * 40 - 20); const tyFall = tyRise + 120 + Math.random() * 50;
+    
+    const rotMid = Math.random() * 180 - 90; const rotEnd = Math.random() * 360 - 180;
+
+    el.style.left = `${startX}px`;
+    el.style.top = `${startY}px`;
+    el.style.setProperty("--tx", `${tx}px`);
+    el.style.setProperty("--ty-rise", `${tyRise}px`); el.style.setProperty("--tx-end", `${txEnd}px`); el.style.setProperty("--ty-fall", `${tyFall}px`); el.style.setProperty("--rot-mid", `${rotMid}deg`); el.style.setProperty("--rot-end", `${rotEnd}deg`);
+
+    document.body.appendChild(el);
+    el.addEventListener("animationend", () => {el.remove();});
+  }
+}
+
   
 /* ================= INIT ================= */
 function init(){
