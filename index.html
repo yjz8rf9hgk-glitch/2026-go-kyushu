@@ -685,7 +685,7 @@ function renderLedger() {
   } else if (boyPaidJoint > halfJoint) {
     transferText = `🍑 漂亮女友 應給 🍆 帥氣男友 <span class="bold">$${Math.round(boyPaidJoint - halfJoint)}</span>`;
   } else {
-    transferText = "💰 完全不用給對方，讚！";
+    transferText = `<span class="bold" style="color:var(--green);">💰 完全不用給對方，讚！</span>`;
   }
 
   const listHtml = txList.map(tx => {
