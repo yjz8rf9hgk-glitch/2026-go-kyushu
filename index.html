@@ -680,6 +680,7 @@ function renderLedger() {
 
   const halfJoint = jointTotal / 2;
   let transferText = "";
+  
   if (girlPaidJoint > halfJoint) {
     transferText = `🍆 帥氣男友 應給 🍑 漂亮女友 <span class="bold">$${Math.round(girlPaidJoint - halfJoint)}</span>`;
   } else if (boyPaidJoint > halfJoint) {
@@ -698,8 +699,8 @@ function renderLedger() {
           <div class="item-meta">${typeLabel} · ${payerLabel}支付 · ${tx.time}</div>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-weight:700;">¥${tx.amount}</span>
-          <button class="delete-btn" onclick="deleteTx('${tx.id}')"> ❌刪除</button>
+          <span style="font-weight:700;">$${tx.amount}</span>
+          <button class="delete-btn" onclick="deleteTx('${tx.id}')">刪除</button>
         </div>
       </div>
     `;
@@ -709,8 +710,8 @@ function renderLedger() {
     <div class="form-group">
       <label>📌 消費類別</label>
       <div class="select-box">
-        <button id="btn-type-joint" class="select-btn type-btn ${currentType === 'joint' ? 'active' : ''}" onclick="selectType('joint')" >👩🏻‍❤️‍👨🏻 共同花費</button>
-        <button id="btn-type-private" class="select-btn type-btn ${currentType === 'private' ? 'active' : ''}" onclick="selectType('private')" >💸 個人花費</button>
+        <button id="btn-type-joint" class="select-btn type-btn ${currentType === 'joint' ? 'active' : ''}" onclick="selectType('joint')"> 👩🏻‍❤️‍👨🏻 共同花費</button>
+        <button id="btn-type-private" class="select-btn type-btn ${currentType === 'private' ? 'active' : ''}" onclick="selectType('private')"> 💸 個人花費</button>
       </div>
     </div>
 
@@ -723,24 +724,23 @@ function renderLedger() {
     </div>
 
     <div class="form-group">
-      <label>✍️ 消費項目與金額</label>
+      <label>✍️ 消費內容</label>
       <div class="input-row">
         <input type="text" id="txTitle" class="ledger-input" placeholder="例：布丁" value="${tempTitle}">
-        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額" value="${tempAmount}">
+        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額(台幣)" value="${tempAmount}">
       </div>
     </div>
 
     <button class="submit-btn" onclick="addTx()">📥 確定新增</button>
 
     <div class="summary-board">
-      <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額：</span><span class="bold">¥${jointTotal}</span></div>
+      <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額：</span><span class="bold">$${jointTotal}</span></div>
       <div class="summary-row"><span>👥 共同花費平分:</span><span class="bold">$${halfJoint}</span></div>
       <div class="summary-row"><span>🍑 女友個人花費:</span><span class="bold">$${girlPrivateTotal}</span></div>
       <div class="summary-row"><span>🍆 男生個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
     </div>
-
     <div class="history-title">📜 消費明細</div>
-    <div class="ledger-list">${listHtml || '<div style="text-align:center; color:var(--text3); padding:20px; font-size:13px;"> 目前尚無記帳紀錄唷～</div>'}</div>
+    <div class="ledger-list">${listHtml || '<div style="text-align:center; color:var(--text3); padding:20px; font-size:13px;">尚無記帳資料</div>'}</div>
   `;
 }
 
