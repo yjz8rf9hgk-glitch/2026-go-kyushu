@@ -462,15 +462,15 @@ function renderNotif(){
   let icon="🗾", app="旅行", title="", sub="";
   if(now < start){
     const diff = Math.ceil((start - now) / (1000*60*60*24));
-    title = "距離九州出發還有 " + diff + " 天";
+    title = "距離出發還有 " + diff + " 天";
     sub = "2026/09/05(六) 出發";
   } else if(now >= start && now <= end){
     const dayIdx = Math.min(4, Math.max(0, Math.floor((now - start) / (1000*60*60*24))));
     title = "旅行進行中・第 " + (dayIdx+1) + " 天";
-    sub = "好好享受九州的每一刻 ✨";
+    sub = "好好享受九州的每一刻✨";
   } else {
     title = "九州旅行已經結束了";
-    sub = "希望這一趟玩得開心💛";
+    sub = "這一趟玩得真開心💛";
   }
   el.innerHTML =
     '<div class="notif-icon">'+icon+'</div>'+
@@ -737,7 +737,7 @@ function renderLedger() {
       <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額：</span><span class="bold">$${jointTotal}</span></div>
       <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費平分:</span><span class="bold">$${halfJoint}</span></div>
       <div class="summary-row"><span>🍑 女友個人花費:</span><span class="bold">$${girlPrivateTotal}</span></div>
-      <div class="summary-row"><span>🍆 男生個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
+      <div class="summary-row"><span>🍆 男友個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
 
       <div class="summary-row total" style="margin-top: 10px; padding-top: 10px; border-top: 1.5px dashed var(--border); font-size: 16px;">
         <span style="font-weight: 800;">👩🏻‍❤️‍👨🏻 結算：</span>
