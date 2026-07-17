@@ -239,7 +239,7 @@
     background: var(--text); color: #fff; border-color: var(--text);
   }
   .select-btn.pink.active {
-    background: var(--pink); color: #fff; border-color: var(--orange);
+    background: var(--orange); color: #fff; border-color: var(--orange);
   }
   .select-btn.boy.active {
     background: var(--boy); color: #fff; border-color: var(--boy);
@@ -700,7 +700,7 @@ function renderLedger() {
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-weight:700;">$${tx.amount}</span>
-          <button class="delete-btn" onclick="deleteTx('${tx.id}')">刪除</button>
+          <button class="delete-btn" onclick="deleteTx('${tx.id}')">❌刪除</button>
         </div>
       </div>
     `;
@@ -727,7 +727,7 @@ function renderLedger() {
       <label>✍️ 消費內容</label>
       <div class="input-row">
         <input type="text" id="txTitle" class="ledger-input" placeholder="例：布丁" value="${tempTitle}">
-        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額(台幣)" value="${tempAmount}">
+        <input type="number" id="txAmount" class="ledger-input" placeholder="台幣$" value="${tempAmount}">
       </div>
     </div>
 
@@ -740,7 +740,7 @@ function renderLedger() {
       <div class="summary-row"><span>🍆 男生個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
 
       <div class="summary-row total" style="margin-top: 10px; padding-top: 10px; border-top: 1.5px dashed var(--border); font-size: 16px;">
-        <span style="font-weight: 800;">👩🏻‍❤️‍👨🏻 共同花費結算：</span>
+        <span style="font-weight: 800;">👩🏻‍❤️‍👨🏻 結算：</span>
         <span>${transferText}</span></div>
     </div>
     
