@@ -53,7 +53,7 @@
   /* ---------- Header ---------- */
   .topbar{
     position:sticky; top:0; z-index:150; background:rgba(255,255,255,0.86);
-    backdrop-filter:saturate(180%) blur(20px); webkit-backdrop-filter:saturate(180%) blur(20px); 
+    backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px); 
     padding:calc(14px + env(safe-area-inset-top)) 16px 10px 16px; margin:0 -16px; 
     border-bottom:1px solid var(--border);
   }
@@ -95,10 +95,10 @@
   .day-switcher{
     display:flex; gap:8px; overflow-x:auto; padding:14px 16px 8px 16px;
     margin:0 -16px; background:rgba(255,255,255,0.95); border-bottom: 1px solid var(--border);
-
-    position: sticky; top: calc(75px + env(safe-area-inset-top)); z-index: 100;
-
-    white-space: nowrap; webkit-overflow-scrolling: touch;
+    position: sticky;
+    top: 75px;
+    z-index: 100;
+    white-space: nowrap; -webkit-overflow-scrolling: touch;
   }
   .day-switcher::-webkit-scrollbar{display:none;}
   
@@ -196,7 +196,6 @@
   }
   .copy-btn:active { transform: scale(0.93); }
 
-
   /* ---------- More Coupon ---------- */
   .coupon-container {
     padding: 0; margin: 24px 0 8px 0;
@@ -211,87 +210,95 @@
    text-align: center; font-size: 11px; color: var(--text2); margin-top: 6px;
   }
 
-  
   /* ---------- Spending ---------- */
-.ledger-card {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--r-lg); padding: 18px; margin-top: 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03); width: 100%;
-}
-.ledger-title{ font-size: 20px; font-weight: 800; margin-bottom: 12px; }
-.form-group{ margin-bottom: 12px; }
-.form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
-.input-row { display: flex; gap: 8px; width: 100%; }
-.ledger-input {
-  padding: 10px 12px; border: 1px solid var(--border);
-  border-radius: var(--r-md); font-size: 14px; background: #fff; outline: none; min-width: 0;
-}
-#txTitle { flex: 1; }
-#txAmount { flex: 0 0 90px; width: 90px; }
+  .ledger-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: 18px; margin-top: 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03); width: 100%;
+  }
+  .ledger-title{ font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+  .form-group{ margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
+  .input-row { display: flex; gap: 8px; width: 100%; }
+  .ledger-input {
+    padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: var(--r-md); font-size: 14px; background: #fff; outline: none; min-width: 0;
+  }
+  #txTitle { flex: 1; }
+  #txAmount { flex: 0 0 90px; width: 90px; }
 
-.select-box {
-  display: flex; gap: 6px; width: 100%;
-}
-.select-btn {
-  flex: 1; padding: 10px; border: 1px solid var(--border); background: #fff;
-  border-radius: var(--r-md); font-size: 13.5px; font-weight: 600; cursor: pointer;
-  text-align: center; transition: all 0.15s ease;
-}
-.select-btn.active {
-  background: var(--text); color: #fff; border-color: var(--text);
-}
-.select-btn.pink.active {
-  background: var(--pink); color: #fff; border-color: var(--pink);
-}
-.select-btn.boy.active {
-  background: var(--boy); color: #fff; border-color: var(--boy);
-}
-.submit-btn {
-  width: 100%; padding: 12px; border: none; background: var(--green); color: #fff;
-  border-radius: var(--r-md); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px;
-}
-.submit-btn:active { opacity: 0.9; }
+  .select-box {
+    display: flex; gap: 6px; width: 100%;
+  }
+  .select-btn {
+    flex: 1; padding: 10px; border: 1px solid var(--border); background: #fff;
+    border-radius: var(--r-md); font-size: 13.5px; font-weight: 600; cursor: pointer;
+    text-align: center; transition: all 0.15s ease;
+  }
+  .select-btn.active {
+    background: var(--text); color: #fff; border-color: var(--text);
+  }
+  .select-btn.pink.active {
+    background: var(--pink); color: #fff; border-color: var(--orange);
+  }
+  .select-btn.boy.active {
+    background: var(--boy); color: #fff; border-color: var(--boy);
+  }
+  .submit-btn {
+    width: 100%; padding: 12px; border: none; background: var(--green); color: #fff;
+    border-radius: var(--r-md); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px;
+  }
+  .submit-btn:active { opacity: 0.9; }
 
-/* Summary */
-.summary-board {
-  background: var(--bg2); border-radius: var(--r-md); padding: 14px; margin: 16px 0;
-}
-.summary-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; color: var(--text2); }
-.summary-row.total { font-size: 15px; font-weight: 700; color: var(--text); border-top: 1px dashed var(--border); padding-top: 8px; margin-top: 8px; }
-.summary-row span.bold { font-weight: 700; color: var(--text); }
+  /* Summary */
+  .summary-board {
+    background: var(--bg2); border-radius: var(--r-md); padding: 14px; margin: 16px 0;
+  }
+  .summary-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; color: var(--text2); }
+  .summary-row.total { font-size: 15px; font-weight: 700; color: var(--text); border-top: 1px dashed var(--border); padding-top: 8px; margin-top: 8px; }
+  .summary-row span.bold { font-weight: 700; color: var(--text); }
 
-/* History */
-.history-title { font-size: 14.5px; font-weight: 700; margin: 16px 0 8px 0; }
-.ledger-list { max-height: 250px; overflow-y: auto; }
-.ledger-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
-}
-.ledger-item:last-child { border-bottom: none; }
-.item-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
-.delete-btn {
-  background: transparent; border: none; color: var(--pink); font-size: 12px; cursor: pointer; padding: 4px;
-}
-.app-footer {
-  text-align: center; font-size: 11px; color: var(--text3); margin-top: 30px; padding-bottom: 20px;
-}
+  /* History */
+  .history-title { font-size: 14.5px; font-weight: 700; margin: 16px 0 8px 0; }
+  .ledger-list { max-height: 250px; overflow-y: auto; }
+  .ledger-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px;
+  }
+  .ledger-item:last-child { border-bottom: none; }
+  .item-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .delete-btn {
+    background: transparent; border: none; color: var(--pink); font-size: 12px; cursor: pointer; padding: 4px;
+  }
+  .app-footer {
+    text-align: center; font-size: 11px; color: var(--text3); margin-top: 30px; padding-bottom: 20px;
+  }
 
-/* ---------- Surprise ---------- */
-.celebrate-particle {
-  position: fixed; pointer-events: none; z-index: 9999; font-size: 20px; user-select: none; animation: fallAndSpin 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-@keyframes fallAndSpin {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(0); opacity: 0;}
-  15% { opacity: 1; transform: translate3d(var(--tx), var(--ty-rise), 0) rotate(var(--rot-mid)) scale(1.2);}
-  100% { transform: translate3d(var(--tx-end), var(--ty-fall), 0) rotate(var(--rot-end)) scale(0.6); opacity: 0;}
-}
-
+  /* ---------- Bottom Rise Celebration ---------- */
+  .celebrate-particle {
+    position: fixed; pointer-events: none; z-index: 9999; font-size: 24px; user-select: none; 
+    animation: riseAndFade 1.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  }
+  @keyframes riseAndFade {
+    0% { 
+      transform: translate3d(var(--tx-start), var(--ty-start), 0) scale(0) rotate(0deg); 
+      opacity: 0;
+    }
+    15% { 
+      opacity: 1; 
+      transform: translate3d(var(--tx-mid), var(--ty-mid), 0) scale(1.3) rotate(var(--rot-mid));
+    }
+    100% { 
+      transform: translate3d(var(--tx-end), var(--ty-end), 0) scale(0.6) rotate(var(--rot-end)); 
+      opacity: 0;
+    }
+  }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <header class="topbar">
+  <header class="topbar" id="topbar">
     <h1>2026 Kyushu</h1>
     <p class="subtitle">承辦單位：♥ 無論如何疼女友旅行社 ♥</p>
   </header>
@@ -370,7 +377,7 @@ const DAYS = [
       {id:"d2-19", icon:"🍴", title:"在博多車站買甜點", "info-1":true},
       {id:"d2-20", icon:"🍡", title:"Imonne Hakata", lines:["冰淇淋麻糬，喜歡的冰淇淋口味要放下面！"], chips:[{t:"hours",text:"～21:00"}], map:"Imonne Hakata Fukuoka"},
       {id:"d2-21", icon:"🥮", title:"LeClerc", lines:["就是可麗露~"], chips:[{t:"hours",text:"～21:00"}], map:"LeClerc Hakata Fukuoka"},
-      {id:"d2-22", icon:"🍮", title:"治一郎Jiichiro", lines:["年輪蛋糕專賣，但有名的是布丁(?"], chips:[{t:"hours",text:"～21:00"}], map:"Jiichiro JR Hakata City"},
+      {id:"d2-22", icon:"🍮", title:"治一郎Jiichiro", lines:["年輪蛋糕專專賣，但有名的是布丁(?"], chips:[{t:"hours",text:"～21:00"}], map:"Jiichiro JR Hakata City"},
       {id:"d2-23", time:"21:00", icon:"🚇", title:"搭地鐵回天神", lines:["博多駅","｜地下鐵空港線（6min，¥210）","天神駅，往7號出口出站步行4min"]},
       {id:"d2-24", icon:"🍎", title:"到超市買水果", chips:[{t:"hours",text:"～23:00"}], map:"西鐵超市Reganet天神店"}
     ]
@@ -436,8 +443,6 @@ const CHIP_ICON = {hours:"🕐", reservation:"🈯", payment:"💳", warning:"�
 /* ================= STATE ================= */
 let checkedMap = {};
 let currentDay = 0;
-let currentRole = "girlfriend";
-let messages = [];
 
 /* ================= STORAGE HELPERS ================= */
 function loadChecked(){
@@ -567,14 +572,17 @@ function toggleItem(event, id){
   saveChecked();
 
   if (!wasDone && checkedMap[id]) {
-    triggerCelebration(event);
+    triggerCelebration();
   }
 }
 
 /* ================= Books ================= */
 let txList = [];
-let currentType = "joint";
-let currentPayer = "girl";
+let currentType = "joint"; // "joint" or "private"
+let currentPayer = "girl";  // "girl" or "boy"
+
+let tempTitle = "";
+let tempAmount = "";
 
 function loadLedger() {
   const data = localStorage.getItem("kyushu-ledger");
@@ -583,6 +591,39 @@ function loadLedger() {
 
 function saveLedger() {
   localStorage.setItem("kyushu-ledger", JSON.stringify(txList));
+}
+
+function saveTempInputs() {
+  const titleEl = document.getElementById("txTitle");
+  const amountEl = document.getElementById("txAmount");
+  if (titleEl) tempTitle = titleEl.value;
+  if (amountEl) tempAmount = amountEl.value;
+}
+
+function selectType(type) {
+  saveTempInputs();
+  currentType = type;
+  
+  document.querySelectorAll(".type-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+  const activeBtn = document.getElementById(`btn-type-${type}`);
+  if (activeBtn) activeBtn.classList.add("active");
+}
+
+function selectPayer(payer) {
+  saveTempInputs();
+  currentPayer = payer;
+  
+  document.querySelectorAll(".payer-btn").forEach(btn => {
+    btn.classList.remove("active", "orange", "boy");
+  });
+  const activeBtn = document.getElementById(`btn-payer-${payer}`);
+  if (activeBtn) {
+    activeBtn.classList.add("active");
+    if (payer === "girl") activeBtn.classList.add("orange");
+    if (payer === "boy") activeBtn.classList.add("boy");
+  }
 }
 
 function renderLedger() {
@@ -607,7 +648,6 @@ function renderLedger() {
   });
 
   const halfJoint = jointTotal / 2;
-  
   const girlFinalTotal = girlPrivateTotal + halfJoint;
   const boyFinalTotal = boyPrivateTotal + halfJoint;
 
@@ -618,37 +658,38 @@ function renderLedger() {
     settlementText = `🍑 漂亮女友 應給 🍆 帥氣男友 $${Math.round(boyPaidJoint - halfJoint)}`;
   }
 
+
   container.innerHTML = `
     <!-- 項目與金額輸入 -->
     <div class="form-group">
       <label>✍️ 消費項目與金額</label>
       <div class="input-row">
-        <input type="text" id="txTitle" class="ledger-input" placeholder="例：拉麵">
-        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額">
+        <input type="text" id="txTitle" class="ledger-input" placeholder="項目 (如：布丁)" value="${tempTitle}" oninput="tempTitle=this.value">
+        <input type="number" id="txAmount" class="ledger-input" placeholder="$ 金額" value="${tempAmount}" oninput="tempAmount=this.value">
       </div>
     </div>
 
-    <!-- 類別選擇 -->
+    <!-- 付款類型 -->
     <div class="form-group">
       <label>📌 消費類別</label>
       <div class="select-box">
-        <button class="select-btn ${currentType==='joint'?'active':''}" onclick="setTxType('joint')">👩🏻‍❤️‍👨🏻 共同花費</button>
-        <button class="select-btn ${currentType==='private'?'active':''}" onclick="setTxType('private')">💸 個人花費</button>
+        <button id="btn-type-joint" class="select-btn type-btn ${currentType === 'joint' ? 'active' : ''}" onclick="selectType('joint')">👩🏻‍❤️‍👨🏻 共同花費</button>
+        <button id="btn-type-private" class="select-btn type-btn ${currentType === 'private' ? 'active' : ''}" onclick="selectType('private')">💸 個人花費</button>
       </div>
     </div>
 
-    <!-- 付款人選擇 -->
+    <!-- 誰付款 -->
     <div class="form-group">
       <label>💳 由誰付款 / 誰的個人花費</label>
       <div class="select-box">
-        <button class="select-btn pink ${currentPayer==='girl'?'active':''}" onclick="setTxPayer('girl')">🍑 漂亮女友</button>
-        <button class="select-btn boy ${currentPayer==='boy'?'active':''}" onclick="setTxPayer('boy')">🍆 帥氣男友</button>
+        <button id="btn-payer-girl" class="select-btn payer-btn ${currentPayer === 'girl' ? 'active pink' : ''}" onclick="selectPayer('girl')">🍑 漂亮女友</button>
+        <button id="btn-payer-boy" class="select-btn payer-btn ${currentPayer === 'boy' ? 'active boy' : ''}" onclick="selectPayer('boy')">🍆 帥氣男友</button>
       </div>
     </div>
 
-    <button class="submit-btn" onclick="addTransaction(event)">📥 記下一筆</button>
+    <button class="submit-btn" onclick="addTx()">📥 新增</button>
 
-    <!-- 數據結算看板 -->
+    <!-- 計算統計看板 -->
     <div class="summary-board">
       <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額:</span><span class="bold">$${jointTotal}</span></div>
       <div class="summary-row"><span>👥 共同平分金額:</span><span class="bold">$${halfJoint}</span></div>
@@ -663,147 +704,192 @@ function renderLedger() {
       </div>
     </div>
 
-    <!-- 歷史明細 -->
+    <!-- 歷史紀錄 --> 
     <div class="history-title">📜 消費明細</div>
-    <div class="ledger-list">
-      ${txList.map((tx, idx) => {
-        const typeBadge = tx.type === 'joint' ? '👩🏻‍❤️‍👨🏻 共同花費' : '💸 個人花費';
-        const payerName = tx.payer === 'girl' ? '🍑 漂亮女友' : '🍆 帥氣男友';
-        return `
-          <div class="ledger-item">
-            <div>
-              <div style="font-weight:600;">${tx.title}</div>
-              <div class="item-meta">${tx.time} | ${typeBadge} (${payerName}付)</div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-weight:700; font-variant-numeric:tabular-nums;">$${tx.amount}</span>
-              <button class="delete-btn" onclick="deleteTransaction(${idx})">❌</button>
-            </div>
-          </div>
-        `;
-      }).reverse().join("") || '<div style="color:var(--text2); text-align:center; padding:20px; font-size:13px;">目前還沒有記帳紀錄喔！</div>'}
-    </div>
-  `;
+    <div class="ledger-list" id="ledgerList"></div> 
+    `;
+
+renderLedgerList();
 }
 
-function setTxType(type) { currentType = type; renderLedger(); }
-function setTxPayer(payer) { currentPayer = payer; renderLedger(); }
+function renderLedgerList() {
+  const listEl = document.getElementById("ledgerList");
+  if (!listEl) return;
+  listEl.innerHTML = "";
 
-function addTransaction(event) {
-  const titleEl = document.getElementById("txTitle");
-  const amountEl = document.getElementById("txAmount");
-  
-  if (!titleEl.value.trim() || !amountEl.value) {
-    alert("請輸入完整的消費項目與金額項目唷！");
+  if (txList.length === 0) {
+    listEl.innerHTML = `<div style="text-align:center; color:var(--text3); font-size:13px; padding:20px 0;">目前尚無記帳紀錄唷～</div>`;
     return;
   }
 
-  const now = new Date();
-  const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  [...txList].reverse().forEach((tx, revIdx) => {
+    const actualIdx = txList.length - 1 - revIdx;
+    const item = document.createElement("div");
+    item.className = "ledger-item";
+    const payerTag = tx.payer === "girl" ? "🍑 漂亮女友" : "🍆 帥氣男友";
+    const typeTag = tx.type === "joint" ? "👩🏻‍❤️‍👨🏻 共同花費" : "💸 個人花費";
 
-  const newTx = {
-    title: titleEl.value.trim(),
-    amount: parseFloat(amountEl.value),
-    type: currentType,
-    payer: currentPayer,
-    time: timeStr
-  };
-
-  txList.push(newTx);
-  saveLedger();
-  renderLedger();
-
-  triggerCelebration(event);
-
-  titleEl.value = "";
-  amountEl.value = "";
+  item.innerHTML = `
+      <div>
+        <div style="font-weight:600;">${tx.title || "未填寫項目"}</div>
+        <div class="item-meta">${payerTag}付 · ${typeTag}</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-weight:700; font-family:monospace;">$${tx.amount}</span>
+        <button class="delete-btn" onclick="deleteTx(${actualIdx})">刪除</button>
+      </div>
+    `;
+    listEl.appendChild(item);
+  });
 }
 
-function deleteTransaction(index) {
-  if(confirm("確定要刪除這筆花費嗎？")) {
-    txList.splice(index, 1);
+function addTx() {
+  const titleVal = tempTitle.trim();
+  const amtVal = parseFloat(tempAmount);
+
+  if (!titleVal) {
+    alert("請填寫消費項目內容唷！");
+    return;
+  }
+  if (isNaN(amtVal) || amtVal <= 0) {
+    alert("請輸入大於 0 的正確金額！");
+    return;
+  }
+
+txList.push({
+    title: titleVal,
+    amount: amtVal,
+    type: currentType,
+    payer: currentPayer
+  });
+    item.innerHTML = `
+      <div>
+        <div style="font-weight:600;">${tx.title || "未填寫項目"}</div>
+        <div class="item-meta">${payerTag}付 · ${typeTag}</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-weight:700; font-family:monospace;">$${tx.amount}</span>
+        <button class="delete-btn" onclick="deleteTx(${actualIdx})">刪除</button>
+      </div>
+    `;
+    listEl.appendChild(item);
+  });
+}
+
+function addTx() {
+  const titleVal = tempTitle.trim();
+  const amtVal = parseFloat(tempAmount);
+
+  if (!titleVal) {
+    alert("請填寫消費項目內容唷！");
+    return;
+  }
+  if (isNaN(amtVal) || amtVal <= 0) {
+    alert("請輸入大於 0 的正確金額金額！");
+    return;
+  }
+
+  txList.push({
+    title: titleVal,
+    amount: amtVal,
+    type: currentType,
+    payer: currentPayer
+  });
+
+  tempTitle = "";
+  tempAmount = "";
+
+  saveLedger();
+  renderLedger();
+}
+
+function deleteTx(idx) {
+  if (confirm("確定要刪除這筆花費紀錄嗎？")) {
+    txList.splice(idx, 1);
     saveLedger();
     renderLedger();
   }
 }
 
-/* ================= Surprise effects ================= */
-function triggerCelebration(event) {
-  if (!event) return;
-
-  const rect = event.target.getBoundingClientRect();
-  const startX = rect.left + rect.width / 2;
-  const startY = rect.top + rect.height / 2;
-
-  const particles = ["🍜", "🌸", "🍮", "🍵", "🍙", "🍣", "🍡"];
-  const particleCount = 15;
-
-  for (let i = 0; i < particleCount; i++) {
-    const el = document.createElement("div");
-    el.className = "celebrate-particle";
-    el.textContent = particles[Math.floor(Math.random() * particles.length)];
+/* ================= Surprise (由下往上噴灑櫻花特效) ================= */
+function triggerCelebration(){
+  const count = 30;
+  const emojis = ["🌸", "🍣", "🍮", "✨", "💸", "🍡"];
+  
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("div");
+    p.className = "celebrate-particle";
+    p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     
-    const angle = (Math.random() * 360 * Math.PI) / 180;
-    const velocity = 50 + Math.random() * 100;
+    const xStart = Math.random() * window.innerWidth;
+    const yStart = window.innerHeight + 50;
     
-    const tx = Math.cos(angle) * velocity;
-    const tyRise = Math.sin(angle) * velocity - 20;
-    const txEnd = tx * 1.3 + (Math.random() * 40 - 20);
-    const tyFall = tyRise + 120 + Math.random() * 50;
+    const xMid = xStart + (Math.random() * 200 - 100);
+    const yMid = window.innerHeight * 0.4 + (Math.random() * 150);
     
-    const rotMid = Math.random() * 180 - 90;
-    const rotEnd = Math.random() * 360 - 180;
-
-    el.style.left = `${startX}px`;
-    el.style.top = `${startY}px`;
-    el.style.setProperty("--tx", `${tx}px`);
-    el.style.setProperty("--ty-rise", `${tyRise}px`);
-    el.style.setProperty("--tx-end", `${txEnd}px`);
-    el.style.setProperty("--ty-fall", `${tyFall}px`);
-    el.style.setProperty("--rot-mid", `${rotMid}deg`);
-    el.style.setProperty("--rot-end", `${rotEnd}deg`);
-
-    document.body.appendChild(el);
-
-    el.addEventListener("animationend", () => {
-      el.remove();
-    });
+    const xEnd = xMid + (Math.random() * 150 - 75);
+    const yEnd = window.innerHeight * 0.1 - (Math.random() * 100);
+    
+    const rMid = (Math.random() * 360) + "deg";
+    const rEnd = (Math.random() * 720 - 360) + "deg";
+    
+    p.style.setProperty("--tx-start", xStart + "px");
+    p.style.setProperty("--ty-start", yStart + "px");
+    p.style.setProperty("--tx-mid", xMid + "px");
+    p.style.setProperty("--ty-mid", yMid + "px");
+    p.style.setProperty("--tx-end", xEnd + "px");
+    p.style.setProperty("--ty-end", yEnd + "px");
+    p.style.setProperty("--rot-mid", rMid);
+    p.style.setProperty("--rot-end", rEnd);
+    
+    p.style.animationDelay = (Math.random() * 0.3) + "s";
+    
+    document.body.appendChild(p);
+    
+    setTimeout(() => { p.remove(); }, 2000);
   }
 }
 
-/* ================= Copy ================= */
+/* ================= UTILS ================= */
 function copyToClipboard(event, text) {
-  event.stopPropagation(); 
+  event.stopPropagation();
   navigator.clipboard.writeText(text).then(() => {
     const btn = event.currentTarget;
-    const originalText = btn.innerHTML;
-    
-    btn.innerHTML = "✅ 已複製";
-    btn.style.borderColor = "var(--green)";
+    const oldText = btn.innerText;
+    btn.innerText = "✅ 已複製";
+    btn.style.background = "var(--green-tint)";
     btn.style.color = "var(--green)";
-    
     setTimeout(() => {
-      btn.innerHTML = originalText;
-      btn.style.borderColor = "";
-      btn.style.color = "";
-    }, 1000);
+      btn.innerText = oldText;
+      btn.style.background = "var(--bg2)";
+      btn.style.color = "var(--text2)";
+    }, 1500);
   }).catch(err => {
-    console.error("❎ 複製失敗: ", err);
-    alert("請手動複製！");
+    console.error("❎ 複製失敗:", err);
   });
 }
 
-/* ================= INIT ================= */
-function init(){
-  renderNotif();
-  loadChecked();
-  renderDaySwitcher();
-  renderDayPanel();
-  loadLedger(); 
-  renderLedger();
+function updateSwitcherStickyPosition() {
+  const topbar = document.getElementById("topbar");
+  const daySwitcher = document.getElementById("daySwitcher");
+  if(topbar && daySwitcher) {
+    const rect = topbar.getBoundingClientRect();
+    daySwitcher.style.top = rect.height + "px";
+  }
 }
 
-window.onload = init;
+/* ================= INIT ================= */
+window.addEventListener("DOMContentLoaded", () => {
+  loadChecked();
+  loadLedger();
+  renderNotif();
+  renderDaySwitcher();
+  renderDayPanel();
+  renderLedger();
+  
+  updateSwitcherStickyPosition();
+  window.addEventListener("resize", updateSwitcherStickyPosition);
+});
 </script>
 </body>
 </html>
