@@ -33,7 +33,7 @@
     --orange-tint:rgba(255,149,0,0.12);
     --yellow:rgba(255,255,0,0.4);
     --yellow-tint:rgba(252,240,69,0.09);
-    --dark-yellow:rgba(91,90,21,1));
+    --dark-yellow:rgba(174,172,0,1);
     --purple:#af52de;
     --purple-tint:rgba(175,82,222,0.12);
     --gray-tint:rgba(142,142,147,0.12);
@@ -314,11 +314,11 @@
 
   <div class="coupon-container">
     <a href="https://gogojp.tw/fukuoka-coupon/" target="_blank" rel="noopener" class="coupon-shortcut-btn">
-      📢日本優惠券全攻略🛒
+      📢 日本優惠券全攻略 🛒
     </a>
     <div class="coupon-hint">💡點擊開啟新分頁，優惠券都在這👈</div>
   </div>
-
+  
   <div class="ledger-card">
     <div class="ledger-title">📋 旅行記帳</div>
     <div id="ledgerApp"></div>
@@ -344,15 +344,16 @@ const DAYS = [
       {id:"d1-07", icon:"🐱", title:"山響屋", lines:["工藝品・可愛招財貓"], chips:[{t:"hours",text:"11:00～18:00"}], map:"山響屋 福岡"},
       {id:"d1-08", icon:"🪙", title:"COIN LUCK 福岡店", lines:["做手鍊"], chips:[{t:"hours",text:"10:00～19:00"}], map:"COIN LUCK 福岡店"},
       {id:"d1-09", icon:"🛍️", title:"一路逛回天神 Shopping！百貨公司行程", "info-1":true},
-      {id:"d1-10", icon:"🧸", title:"扭蛋專賣店", lines:["#C-pla 福岡天神西通り店"], map:"#C-pla 福岡天神西通り店", lines:["ドリームカプセルSouth Labo"], map:"ドリームカプセルSouth Labo"},
-      {id:"d1-10", icon:"🏬", title:"IWATAYA", chips:[{t:"hours",text:"10:00～20:00"}], lines:["1F SHIRO","3F MM6"], map:"Iwataya Main Store Fukuoka",coupon:"https://apps.apple.com/us/app/mitsukoshi-isetan-japan/id6738402688"},
-      {id:"d1-11", icon:"🏬", title:"PARCO", chips:[{t:"hours",text:"10:00～20:30"}], lines:["🧃新館","1F Beans","3F FREAK'S STORE","🧃本館","1F Vivienne Westwood","2F SNIDEL","3F URBAN RESEARCH","7F Crayon Shin-chan","8F Kiddy Land","8F アニメイト","7F&8F 有一堆扭蛋"], map:"福岡PARCO本館"},
-      {id:"d1-12", icon:"🏬", title:"ONE FUKUOKA BLDG", chips:[{t:"hours",text:"11:00～20:00"}], lines:["2F Nike","2F MoMA Design Store","4F KEEN"], map:"ONE FUKUOKA BLDG Fukuoka"},
-      {id:"d1-13", icon:"🥐", title:"下午茶時間！買個明太子麵包", chips:[{t:"hours",text:"10:00～20:00"},{t:"reservation",text:"當天預約16:45取餐"}], map:"フルフル パンとワイン"},
-      {id:"d1-14", icon:"🏬", title:"Mina 天神", chips:[{t:"hours",text:"10:00～20:00"}], lines:["B1F 3COINS＋plus","1F Uniqlo","1F JINS（態度很差要有心理準備）","4F LOFT"], map:"Mina天神 Fukuoka"},
-      {id:"d1-15", icon:"🚶", title:"步行4min回飯店放東西", "info-1":true},
-      {id:"d1-16", time:"19:00", icon:"🚶", title:"步行10min去吃晚餐：烏龍沾麵", chips:[{t:"hours",text:"10:00～22:00"},{t:"warning",text:"無預約制（排隊時間20min+）"},{t:"payment",text:"可刷卡"}], map:"麵屋兼虎 天神本店"},
-      {id:"d1-17", icon:"🍎", title:"吃飽飽到超市買水果", chips:[{t:"hours",text:"～23:00"}], map:"西鐵超市Reganet天神店"}
+      {id:"d1-10", icon:"🧸", title:"#C-pla", lines:["扭蛋專賣店"], map:"#C-pla 福岡天神西通り店"},
+      {id:"d1-11", icon:"🧸", title:"DREAM CAPSULE", lines:["扭蛋專賣店"], map:"ドリームカプセルSouth Labo"},
+      {id:"d1-12", icon:"🏬", title:"IWATAYA", chips:[{t:"hours",text:"10:00～20:00"}], lines:["1F SHIRO","3F MM6"], map:"Iwataya Main Store Fukuoka",coupon:"https://apps.apple.com/us/app/mitsukoshi-isetan-japan/id6738402688"},
+      {id:"d1-13", icon:"🏬", title:"PARCO", chips:[{t:"hours",text:"10:00～20:30"}], lines:["🧃新館","1F Beans","3F FREAK'S STORE","🧃本館","1F Vivienne Westwood","2F SNIDEL","3F URBAN RESEARCH","7F Crayon Shin-chan","8F Kiddy Land","8F アニメイト","7F&8F 有一堆扭蛋"], map:"福岡PARCO本館"},
+      {id:"d1-14", icon:"🏬", title:"ONE FUKUOKA BLDG", chips:[{t:"hours",text:"11:00～20:00"}], lines:["2F Nike","2F MoMA Design Store","4F KEEN"], map:"ONE FUKUOKA BLDG Fukuoka"},
+      {id:"d1-15", icon:"🥐", title:"下午茶時間！買個明太子麵包", chips:[{t:"hours",text:"10:00～20:00"},{t:"reservation",text:"當天預約16:45取餐"}], map:"フルフル パンとワイン"},
+      {id:"d1-16", icon:"🏬", title:"Mina 天神", chips:[{t:"hours",text:"10:00～20:00"}], lines:["B1F 3COINS＋plus","1F Uniqlo","1F JINS（態度很差要有心理準備）","4F LOFT"], map:"Mina天神 Fukuoka"},
+      {id:"d1-17", icon:"🚶", title:"步行4min回飯店放東西", "info-1":true},
+      {id:"d1-18", time:"19:00", icon:"🚶", title:"步行10min去吃晚餐：烏龍沾麵", chips:[{t:"hours",text:"10:00～22:00"},{t:"warning",text:"無預約制（排隊時間20min+）"},{t:"payment",text:"可刷卡"}], map:"麵屋兼虎 天神本店"},
+      {id:"d1-19", icon:"🍎", title:"吃飽飽到超市買水果", chips:[{t:"hours",text:"～23:00"}], map:"西鐵超市Reganet天神店"}
     ]
   },
   {
