@@ -31,6 +31,7 @@
     --green-tint:rgba(52,199,89,0.12);
     --orange:#ff9500;
     --orange-tint:rgba(255,149,0,0.12);
+    --dark-yellow:rgba(198,198,0,0.75);
     --yellow-tint:rgba(252,240,69,0.09);
     --purple:#af52de;
     --purple-tint:rgba(175,82,222,0.12);
@@ -173,7 +174,7 @@
   .chip.reservation{background:var(--purple-tint); color:var(--purple);}
   .chip.payment{background:var(--green-tint); color:#1f8a3d;}
   .chip.warning{background:var(--orange-tint); color:#c96500;}
-  .chip.tip{background:var(--boy-tint); color:var(--boy);}
+  .chip.tip{background:var(--yellow-tint); color:var(--dark-yellow);}
   .chip.note{background:var(--gray-tint); color:var(--text2);}
   .map-btn{
     margin-top:8px; display:inline-flex; align-items:center; gap:4px;
@@ -187,7 +188,6 @@
     padding: 6px 11px; border-radius:100px; text-decoration:none; -webkit-user-select:none; user-select:none;
   }
   .coupon-btn:active{transform: scale(0.94); }
-
   .copy-btn {
     background: var(--bg2); border: 1px solid var(--border); color: var(--text2);
     font-size: 10px; padding: 2px 7px; border-radius: 12px; cursor: pointer;
@@ -388,17 +388,26 @@ const DAYS = [
       {id:"d3-01", time:"07:00", icon:"🚶", title:"出門！到博多車站買早餐", lines:["天神駅", "｜地下鐵空港線（6min，¥210）", "博多駅"]},
       {id:"d3-02", icon:"🥖", title:"早餐：好吃麵包", chips:[{t:"hours",text:"07:00～19:00"},{t:"warning",text:"選擇現場排隊外帶"},{t:"payment",text:"可刷卡"},{t:"tip",text:"據說香腸麵包必吃"}], map:"Dacomecca Fukuoka"},
       {id:"d3-03", time:"08:00", icon:"🚄", title:"出發前往長崎（100min）", lines:["🎫 先買車票，自由席來回共¥11,920","博多駅（08:12發車）","｜JR特急接力海鷗號（60min）","武雄溫泉駅，走下車到對面上車","｜西九州新幹線海鷗號（30min）","長崎駅"]},
-      {id:"d3-04", time:"09:55", icon:"📍", title:"抵達長崎，搭乘路面電車前往原爆資料館", lines:["長崎站前","｜路面電車 赤迫行（5min，¥150）","原爆資料館，步行4min"]},
+      {id:"d3-04", time:"09:55", icon:"📍", title:"抵達長崎，搭乘路面電車前往原爆資料館", lines:["長崎站前駅","｜路面電車 赤迫行（5min，¥150）","原爆資料館駅，步行4min"]},
       {id:"d3-05", time:"10:15", icon:"🏛️", title:"抵達長崎原爆資料館", chips:[{t:"hours",text:"08:30～18:30"},{t:"note",text:"門票1人¥200"}], map:"長崎原爆資料館"},
-      {id:"d3-06", icon:"🕊️", title:"平和公園", lines:["1945/8/9 11:02 原子彈落在此處"], map:"原子爆彈落下中心地碑 Nagasaki"},
-      {id:"d3-07", time:"11:30", icon:"⛴️", title:"前往大波止碼頭", lines:["原爆資料館","｜路面電車 崇福寺行（13min，¥150）","大波止，步行5min"]},
+      {id:"d3-06", icon:"😭", title:"爆心地公園", lines:["1945/8/9 11:02 原子彈落在此處"], map:"原子爆彈落下中心地碑 Nagasaki"},
+      {id:"d3-07", time:"11:30", icon:"⛴️", title:"前往大波止碼頭", lines:["原爆資料館駅","｜路面電車 崇福寺行（13min，¥150）","大波止駅，步行5min"]},
       {id:"d3-08", icon:"⛴️", title:"前往 やまさ海運 報到", lines:["📍 長崎港客運終端大樓1F 7號窗口","📎 予約番号535682，参加料金は当日徴収いたします","💴 2人合計¥9,900（税込）","🧾 事先列印並填上陸誓約書（1人1份）","✏️ 現場再填寫旅客名簿"], map:"長崎港ターミナルビル"},
       {id:"d3-09", icon:"🍱", title:"午餐在港口簡單吃"},
       {id:"d3-10", time:"13:00", icon:"🚤", title:"出航！前往軍艦島", lines:["全程需約2hr30min"], map:"端島 軍艦島 長崎"},
       {id:"d3-11", time:"15:30", icon:"⛴️", title:"抵達大波止碼頭，回長崎車站", lines:["大波止","｜路面電車 赤迫行（4min，¥150）","長崎站前"]},
-      {id:"d3-12", time:"16:00", icon:"🚆", title:"抵達長崎車站，回博多", lines:["長崎駅（16:42發車）","｜西九州新幹線海鷗號（30min）","武雄溫泉駅，走下車到對面上車","｜JR特急接力海鷗號（60min）"]},
-      {id:"d3-13", time:"18:15", icon:"🥩", title:"抵達博多，晚餐吃燒肉！", lines:["博多駅","｜地鐵七隈線（5min，¥210）","渡辺通駅，往1號出口出站步行8min"], chips:[{t:"hours",text:"17:00～00:00"},{t:"reservation",text:"已預約18:45"},{t:"payment",text:"可刷卡"}], map:"燒肉上 Fukuoka"},
-      {id:"d3-14", time:"21:10", icon:"🚶", title:"散步15min前往酒吧：Notime Mixology Bar", chips:[{t:"hours",text:"19:00～01:00"},{t:"reservation",text:"已預約21:30，可待2hr"},{t:"payment",text:"可刷卡"},{t:"tip",text:"Google map推薦Four Seasons"}], map:"Notime Mixology Bar Fukuoka"}
+      {id:"d3-12", icon:"🅱️", title:"若軍艦島觀光登島船因天氣因素取消航班，就走Plan B吧！", "info-1":true},
+      {id:"d3-13", icon:"🕊️", title:"平和公園", lines:["從爆心地公園過去，入口會看到當時距離爆炸中心180公尺的防空洞，當時庇護了倖存者"], map:"平和公園"},
+      {id:"d3-14", time:"12:00", icon:"🍜", title:"午餐：豬排定食", lines:["原爆資料館駅","｜路面電車 蛍茶屋行（15min，¥150）","市役所駅，下車轉乘","｜路面電車 石橋行（2min，¥0）","眼鏡橋，步行4min"], chips:[{t:"hours",text:"11:30～15:00"},{t:"payment",text:"可刷卡"}], map:"勝鹿 浜の町店"},
+      {id:"d3-15", icon:"🚶", title:"吃飽在眼鏡橋周遭走走晃晃", "info-1":true},
+      {id:"d3-16", icon:"🐱", title:"招財貓小物店", lines:["長崎很多貓咪，而彎曲尾巴貓咪被認為可以帶來好運"], map:"長崎尾曲がり猫神社"},
+      {id:"d3-17", icon:"👓", title:"眼鏡橋", lines:["🪨建於1634年的石造雙拱橋，是日本最古老的拱形石橋"], map:"眼鏡橋"},
+      {id:"d3-18", time:"14:30", icon:"☕", title:"喝咖啡・吃布丁：NGS COFFEE", lines:["市役所駅","｜路面電車 赤迫行（9min，¥150）","スタジアムシティノース駅，步行3min"], map:"NGS COFFEE"},
+      {id:"d3-19", time:"15:45", icon:"🚆", title:"前往長崎車站", lines:["スタジアムシティノース駅","｜路面電車 崇福寺行/蛍茶屋行（9min，¥150)","長崎站前駅"]},
+      {id:"d3-20", time:"16:00", icon:"🚆", title:"抵達長崎車站，可以先買東西帶上車"},
+      {id:"d3-21", time:"16:35", icon:"🚄", title:"準備回博多", lines:["長崎駅（16:42發車）","｜西九州新幹線海鷗號（30min）","武雄溫泉駅，走下車到對面上車","｜JR特急接力海鷗號（60min）"]},
+      {id:"d3-22", time:"18:15", icon:"🥩", title:"抵達博多，晚餐吃燒肉！", lines:["博多駅","｜地鐵七隈線（5min，¥210）","渡辺通駅，往1號出口出站步行8min"], chips:[{t:"hours",text:"17:00～00:00"},{t:"reservation",text:"已預約18:45"},{t:"payment",text:"可刷卡"}], map:"燒肉上 Fukuoka"},
+      {id:"d3-23", time:"21:10", icon:"🚶", title:"散步15min前往酒吧：Notime Mixology Bar", chips:[{t:"hours",text:"19:00～01:00"},{t:"reservation",text:"已預約21:30，可待2hr"},{t:"payment",text:"可刷卡"},{t:"tip",text:"Google map推薦Four Seasons"}], map:"Notime Mixology Bar Fukuoka"}
     ]
   },
   {
@@ -735,12 +744,12 @@ function renderLedger() {
 
     <div class="summary-board">
       <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費總額：</span><span class="bold">$${jointTotal}</span></div>
-      <div class="summary-row"><span>👩🏻‍❤️‍👨🏻 共同花費平分:</span><span class="bold">$${halfJoint}</span></div>
+      <div class="summary-row"><span>💏 共同花費平分:</span><span class="bold">$${halfJoint}</span></div>
       <div class="summary-row"><span>🍑 女友個人花費:</span><span class="bold">$${girlPrivateTotal}</span></div>
       <div class="summary-row"><span>🍆 男友個人花費:</span><span class="bold">$${boyPrivateTotal}</span></div>
 
       <div class="summary-row total" style="margin-top: 10px; padding-top: 10px; border-top: 1.5px dashed var(--border); font-size: 16px;">
-        <span style="font-weight: 800;">👩🏻‍❤️‍👨🏻 結算：</span>
+        <span style="font-weight: 800;">🧮 結算：</span>
         <span>${transferText}</span></div>
     </div>
     
