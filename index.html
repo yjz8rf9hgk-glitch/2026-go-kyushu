@@ -31,8 +31,9 @@
     --green-tint:rgba(52,199,89,0.12);
     --orange:#ff9500;
     --orange-tint:rgba(255,149,0,0.12);
-    --dark-yellow:rgba(198,198,0,0.75);
+    --yellow:rgba(255,255,0,0.4);
     --yellow-tint:rgba(252,240,69,0.09);
+    --dark-yellow:rgba(91,90,21,1));
     --purple:#af52de;
     --purple-tint:rgba(175,82,222,0.12);
     --gray-tint:rgba(142,142,147,0.12);
@@ -174,7 +175,7 @@
   .chip.reservation{background:var(--purple-tint); color:var(--purple);}
   .chip.payment{background:var(--green-tint); color:#1f8a3d;}
   .chip.warning{background:var(--orange-tint); color:#c96500;}
-  .chip.tip{background:var(--yellow-tint); color:var(--dark-yellow);}
+  .chip.tip{background:var(--yellow); color:var(--dark-yellow);}
   .chip.note{background:var(--gray-tint); color:var(--text2);}
   .map-btn{
     margin-top:8px; display:inline-flex; align-items:center; gap:4px;
@@ -343,6 +344,7 @@ const DAYS = [
       {id:"d1-07", icon:"🐱", title:"山響屋", lines:["工藝品・可愛招財貓"], chips:[{t:"hours",text:"11:00～18:00"}], map:"山響屋 福岡"},
       {id:"d1-08", icon:"🪙", title:"COIN LUCK 福岡店", lines:["做手鍊"], chips:[{t:"hours",text:"10:00～19:00"}], map:"COIN LUCK 福岡店"},
       {id:"d1-09", icon:"🛍️", title:"一路逛回天神 Shopping！百貨公司行程", "info-1":true},
+      {id:"d1-10", icon:"🧸", title:"扭蛋專賣店", lines:["#C-pla 福岡天神西通り店"], map:"#C-pla 福岡天神西通り店", lines:["ドリームカプセルSouth Labo"], map:"ドリームカプセルSouth Labo"},
       {id:"d1-10", icon:"🏬", title:"IWATAYA", chips:[{t:"hours",text:"10:00～20:00"}], lines:["1F SHIRO","3F MM6"], map:"Iwataya Main Store Fukuoka",coupon:"https://apps.apple.com/us/app/mitsukoshi-isetan-japan/id6738402688"},
       {id:"d1-11", icon:"🏬", title:"PARCO", chips:[{t:"hours",text:"10:00～20:30"}], lines:["🧃新館","1F Beans","3F FREAK'S STORE","🧃本館","1F Vivienne Westwood","2F SNIDEL","3F URBAN RESEARCH","7F Crayon Shin-chan","8F Kiddy Land","8F アニメイト","7F&8F 有一堆扭蛋"], map:"福岡PARCO本館"},
       {id:"d1-12", icon:"🏬", title:"ONE FUKUOKA BLDG", chips:[{t:"hours",text:"11:00～20:00"}], lines:["2F Nike","2F MoMA Design Store","4F KEEN"], map:"ONE FUKUOKA BLDG Fukuoka"},
@@ -404,10 +406,11 @@ const DAYS = [
       {id:"d3-17", icon:"👓", title:"眼鏡橋", lines:["🪨建於1634年的石造雙拱橋，是日本最古老的拱形石橋"], map:"眼鏡橋"},
       {id:"d3-18", time:"14:30", icon:"☕", title:"喝咖啡・吃布丁：NGS COFFEE", lines:["市役所駅","｜路面電車 赤迫行（9min，¥150）","スタジアムシティノース駅，步行3min"], map:"NGS COFFEE"},
       {id:"d3-19", time:"15:45", icon:"🚆", title:"前往長崎車站", lines:["スタジアムシティノース駅","｜路面電車 崇福寺行/蛍茶屋行（9min，¥150)","長崎站前駅"]},
-      {id:"d3-20", time:"16:00", icon:"🚆", title:"抵達長崎車站，可以先買東西帶上車"},
-      {id:"d3-21", time:"16:35", icon:"🚄", title:"準備回博多", lines:["長崎駅（16:42發車）","｜西九州新幹線海鷗號（30min）","武雄溫泉駅，走下車到對面上車","｜JR特急接力海鷗號（60min）"]},
-      {id:"d3-22", time:"18:15", icon:"🥩", title:"抵達博多，晚餐吃燒肉！", lines:["博多駅","｜地鐵七隈線（5min，¥210）","渡辺通駅，往1號出口出站步行8min"], chips:[{t:"hours",text:"17:00～00:00"},{t:"reservation",text:"已預約18:45"},{t:"payment",text:"可刷卡"}], map:"燒肉上 Fukuoka"},
-      {id:"d3-23", time:"21:10", icon:"🚶", title:"散步15min前往酒吧：Notime Mixology Bar", chips:[{t:"hours",text:"19:00～01:00"},{t:"reservation",text:"已預約21:30，可待2hr"},{t:"payment",text:"可刷卡"},{t:"tip",text:"Google map推薦Four Seasons"}], map:"Notime Mixology Bar Fukuoka"}
+      {id:"d3-20", icon:"🅱️", title:"以上是Plan B~", "info-1":true},
+      {id:"d3-21", time:"16:00", icon:"🚆", title:"抵達長崎車站，可以先買東西帶上車"},
+      {id:"d3-22", time:"16:35", icon:"🚄", title:"準備回博多", lines:["長崎駅（16:42發車）","｜西九州新幹線海鷗號（30min）","武雄溫泉駅，走下車到對面上車","｜JR特急接力海鷗號（60min）"]},
+      {id:"d3-23", time:"18:15", icon:"🥩", title:"抵達博多，晚餐吃燒肉！", lines:["博多駅","｜地鐵七隈線（5min，¥210）","渡辺通駅，往1號出口出站步行8min"], chips:[{t:"hours",text:"17:00～00:00"},{t:"reservation",text:"已預約18:45"},{t:"payment",text:"可刷卡"}], map:"燒肉上 Fukuoka"},
+      {id:"d3-24", time:"21:10", icon:"🚶", title:"散步15min前往酒吧：Notime Mixology Bar", chips:[{t:"hours",text:"19:00～01:00"},{t:"reservation",text:"已預約21:30，可待2hr"},{t:"payment",text:"可刷卡"},{t:"tip",text:"Google map推薦Four Seasons"}], map:"Notime Mixology Bar Fukuoka"}
     ]
   },
   {
